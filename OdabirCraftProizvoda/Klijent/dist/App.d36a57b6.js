@@ -31217,7 +31217,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const Logout = () => {
   localStorage.removeItem("token");
-  return /*#__PURE__*/_react.default.createElement(Redirect, {
+  return /*#__PURE__*/_react.default.createElement(_router.Redirect, {
     to: "/"
   });
 };
@@ -31380,7 +31380,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58558" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51105" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
