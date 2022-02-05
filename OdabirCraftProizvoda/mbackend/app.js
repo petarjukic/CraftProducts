@@ -9,6 +9,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
+import { Product } from './models/ProductModel.js';
 
 
 
@@ -86,14 +87,18 @@ userRouter.route('/register').post((req, res) => {
 });
 
 userRouter.route('/logout').get((req, res) => {
-    res.cookie('jwt', '', 1); // mozda 1 u {1}
+    //res.cookie('jwt', '', {1}); // mozda 1 u {1}
+    // req.user.deleteToken(req.token, (err, user) => {
+    //     if(err) return res.status(400).send(err);
+    //         res.sendStatus(200);
+    // })
 });
 
 app.use("/api", userRouter);
 
 //////////// USER /////////////////
 
-//////////// READ COMPANY /////////////////
+//////////// READ COMPANY & PRODUCT /////////////////
 
 craftProducts.get('/company/:name', (req, res) => {
     Company.find({name: req.params.name}, (err, name) => {
@@ -118,56 +123,86 @@ craftProducts.route('/company').get((req, res) => {
 })
 
 craftProducts.route('/products').get((req, res) => {
-    Company.find((err, products) => {
+    Product.find((err, products) => {
         if(err) {
             res.send(err);
         }
         else {
-            //console.log(res.json(products) + "AAAAAAAAa");
-            // const productObject = 
-            //console.log(productObject.data);
             return res.json(products);
         }
     })
 });
 
-craftProducts.get('/products/:name', (req, res) => {
-    Company.find({name: req.params.name}, (err, name) => {
+craftProducts.get('/products/:type', (req, res) => {
+    Product.find({type: req.params.type}, (err, type) => {
         if(err){
             res.send(err);
         }
         else{
-            return res.json(name);
+            return res.json(type);
         }
     });
  });
 
+//////////// READ COMPANY & PRODUCT /////////////////
+
+
+//////////// CREATE COMPANY & PRODUCT /////////////////
+
+craftProducts.route('/company').post((req, res) => {
+    const company = new Company(req.body);
+    company.save();
+    return res.status(210).json(company);
+});
+    
+craftProducts.route('/product').post((req, res) => {
+    const product = new Product(req.body);
+    product.save();
+    return res.status(210).json(product);
+});
+
+
+//////////// DELETE COMPANY & PRODUCT /////////////////
+
+craftProducts.route('/company/:name').delete((req, res) => {
+    Company.remove({name: req.params.name}, (err, company) => {
+        if(err) {
+            res.send(err);
+        } else {
+            res.json(company);
+        }
+    });
+});
+
+craftProducts.route('/product/:productName').delete((req, res) => {
+    Product.remove({productName: req.params.productName}, (err, product) => {
+        if(err) {
+            res.send(err);
+        } else {
+            res.json(product);
+        }
+    });
+});
+
+//////////// DELETE COMPANY & PRODUCT /////////////////
+
+
+//////////// UPDATE COMPANY & PRODUCT /////////////////
+
+craftProducts.route('company/update').put((req, res) => {
+
+});
+
+craftProducts.route('product/update').put((req, res) => {
+    
+});
+
+//////////// UPDATE COMPANY & PRODUCT /////////////////
+
+
 app.use("/api", craftProducts);
 
-//////////// READ COMPANY /////////////////
 
-
-//////////// CREATE COMPANY /////////////////
-
-craftProducts.route('/company')
-    .post((req, res)=>{
-        const company = new Company(req.body);
-        console.log(req.body)
-        console.log(company)
-        movie.save()
-        return res.status(210).json(company)
-    })
-    // .get((req, res)=>{
-    //     //const query = {genre:"Comedy"}
-    //     Movie.find((err, movies)=>{
-    //         if(err){
-    //             console.log(err)
-    //         }
-    //         else{
-    //             res.json(movies)
-    //         }
-    //     })
-    // })
 
 app.listen(port, ()=>{
     console.log("Running on port " + port);

@@ -1,11 +1,13 @@
-// import mongoose from "mongoose";
+import mongoose from "mongoose";
 
-// const product = new mongoose.Schema({
-//     price: {type: Number},
-//     alcoholPercentage: {type: Number},
-//     color: {type: String},
-//     type: {type: String},
-//     // manafacturerId: {type: String},
-// });
 
-// export const Product = mongoose.model("Product", product);
+const product = new mongoose.Schema({
+    price: {type: Number},
+    alcoholPercentage: {type: Number},
+    productName : {type: String},
+    color: {type: String},
+    type: {type: String},
+    companyName: {type: String},
+});
+
+export const Product = mongoose.model("Product", product);
