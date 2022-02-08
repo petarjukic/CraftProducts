@@ -12,7 +12,6 @@ import 'dotenv/config';
 import { Product } from './models/ProductModel.js';
 
 
-
 const app = express();
 
 const db = mongoose.connect("mongodb://localhost:27017/chocolatedb") // pise chocolatedb jer mi jedino radi za dohvat podataka iz te davno kreirane 
@@ -50,11 +49,11 @@ function verifyJwt1(req, res, next) {
     const authorization = req.header('authorization');
     const token = authorization ? authorization.split('Bearer ')[1] : undefined;
     if(!token) {
-        return res.send(401, "Unauthorized");
+        return res.status(401).send("Unauthorized");
     }
     jwt.verify(token, process.env.SECRET, (err, payload)=>{
         if (err || !payload.sub) {
-            return res.send(401, "Unauthorized");
+            return res.status(401).send("Unauthorized");
         }
         return next();
     })
@@ -74,7 +73,6 @@ userRouter.route("/login").post((req, res) => {
 });
 
 userRouter.route('/register').post((req, res) => {
-    //console.log(req.body.email + " " + req.body.password);
     UserModel.find({email: req.body.email}, function (error, users) { 
         if (error || users.length > 0) {
             console.log(users.length);
@@ -109,7 +107,7 @@ craftProducts.get('/company/:name', (req, res) => {
             return res.json(name);
         }
     });
- });
+});
 
 craftProducts.route('/company').get((req, res) => {
     Company.find((err, products) => {
@@ -127,7 +125,12 @@ craftProducts.route('/products').get((req, res) => {
         if(err) {
             res.send(err);
         }
-        else {
+        else {        
+            const us = req.user;
+            console.log("AAAAAAA ", us);
+            // const userIfor = os.userInfo();
+            // const emaila = userIfor.username;
+            // console.log("AAAAAAA ", emaila);
             return res.json(products);
         }
     })
@@ -142,7 +145,7 @@ craftProducts.get('/products/:type', (req, res) => {
             return res.json(type);
         }
     });
- });
+});
 
 //////////// READ COMPANY & PRODUCT /////////////////
 
@@ -155,7 +158,7 @@ craftProducts.route('/company').post((req, res) => {
     return res.status(210).json(company);
 });
     
-craftProducts.route('/product').post((req, res) => {
+craftProducts.route('/product').post(verifyJwt1, (req, res) => {
     const product = new Product(req.body);
     product.save();
     return res.status(210).json(product);
@@ -164,7 +167,7 @@ craftProducts.route('/product').post((req, res) => {
 
 //////////// DELETE COMPANY & PRODUCT /////////////////
 
-craftProducts.route('/company/:name').delete((req, res) => {
+craftProducts.route('/company/:name').delete(verifyJwt1, (req, res) => {
     Company.remove({name: req.params.name}, (err, company) => {
         if(err) {
             res.send(err);
@@ -174,7 +177,7 @@ craftProducts.route('/company/:name').delete((req, res) => {
     });
 });
 
-craftProducts.route('/product/:productName').delete((req, res) => {
+craftProducts.route('/product/:productName').delete(verifyJwt1, (req, res) => {
     Product.remove({productName: req.params.productName}, (err, product) => {
         if(err) {
             res.send(err);
@@ -189,12 +192,40 @@ craftProducts.route('/product/:productName').delete((req, res) => {
 
 //////////// UPDATE COMPANY & PRODUCT /////////////////
 
-craftProducts.route('company/update').put((req, res) => {
+craftProducts.route('/company/update/:id').put(verifyJwt1, (req, res) => {
+    try {
+        const id = req.params.id;
+        const update = req.body;
+        const options = {new: true};
 
+        Company.findByIdAndUpdate(id, update, options, (err, comp) => {
+            if(err) {
+                res.send(err);
+            } else{
+                res.json(comp);
+            }
+        });
+    } catch(error) {
+        console.log(error);
+    }
 });
 
-craftProducts.route('product/update').put((req, res) => {
-    
+craftProducts.route('/product/update/:id').put(verifyJwt1, (req, res) => {
+    try { // FOR CHECKING IF PRODUCT EXIST
+        const id = req.params.id;
+        const update = req.body;
+        const options = {new: true}; // TO RETURN UPDATED RESULT
+
+        Product.findByIdAndUpdate(id, update, options, (err, prod) => {
+            if(err) {
+                res.send(err);
+            } else{
+                res.json(prod);
+            }
+        });
+    } catch(error) {
+        console.log(error);
+    }
 });
 
 //////////// UPDATE COMPANY & PRODUCT /////////////////
@@ -206,4 +237,4 @@ app.use("/api", craftProducts);
 
 app.listen(port, ()=>{
     console.log("Running on port " + port);
-})
+});
