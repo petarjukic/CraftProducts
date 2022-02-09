@@ -4,8 +4,14 @@ import {navigate} from "@reach/router";
 
 export const Register = () =>{
     const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
+
+
+    function onChangeName(e) {
+        setName(e.target.value);
+    }
 
     function onChangeEmail(e) {
         setEmail(e.target.value);
@@ -30,6 +36,7 @@ export const Register = () =>{
         fetch("http://localhost:5000/api/register", {
             method: "POST",
             body: JSON.stringify({
+                name: name,
                 email: email,
                 password: password
             }),
@@ -46,6 +53,14 @@ export const Register = () =>{
     return(
     <div>
         <form onSubmit={(e) => {handleLogin(e);}}>
+        <label htmlFor="name">Name</label>
+            <input
+                type="text"
+                value={name}
+                onChange={onChangeName}
+                onBlur={onChangeName}
+            ></input>
+            
             <label htmlFor="email">Email</label>
             <input
                 type="text"

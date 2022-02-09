@@ -6,7 +6,11 @@
   body {
     background-color: #81a69b;
     margin: 0;
-    font-family: "Verdana, sans-serif;
+  }
+
+  td, th {
+    border: 2px solid rgb(163, 4, 4);
+    padding: 0.5rem;
   }
   
   .search-params {
@@ -221,7 +225,7 @@
   }
   
   @media only screen and (max-width: 600px) {
-    .movie {
+    .product {
       height: 200px;
     }
   

@@ -29,7 +29,6 @@ export const Login = () =>{
         .then((data)=>{
             if (data.accessToken) {
                 localStorage.setItem("token", data.accessToken);
-                console.log("jeee");
                 navigate('/');
             } else {
                 console.log("Authentication error");

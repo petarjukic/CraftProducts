@@ -10,7 +10,7 @@ class Details extends React.Component{
     }
 
     componentDidMount(){
-        fetch(`http://localhost:4000/api/movies?genre=${this.props.genre}`)
+        fetch(`http://localhost:5000/api/movies?genre=${this.props.genre}`)
         .then((response)=>response.json())
         .then((movies)=>{
             let filteredMovie = movies.filter((movie)=>(movie._id == this.props.id));

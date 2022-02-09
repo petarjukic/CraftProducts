@@ -1,12 +1,12 @@
 import React from "react";
-import Movie from "./Movie";
+import Product from "./Product";
 
-
+                // company, product
 const Results = ({genre, movies}) =>{
     return(
         <div className="search">
            {
-               movies.map((item)=>{return <Movie genre={genre} name={item.name} id={item._id}/>})
+               movies.map((item)=>{return <Product genre={genre} name={item.name} id={item._id}/>})
            }
         </div>
     );
