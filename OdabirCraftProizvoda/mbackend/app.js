@@ -85,12 +85,25 @@ userRouter.route('/register').post((req, res) => {
 });
 
 userRouter.route('/logout').get((req, res) => {
-    //res.cookie('jwt', '', {1}); // mozda 1 u {1}
+    // res.cookie('jwt', '', {maxAge: 1}); // mozda 1 u {1}
     // req.user.deleteToken(req.token, (err, user) => {
     //     if(err) return res.status(400).send(err);
     //         res.sendStatus(200);
     // })
+    // res.clearCookie('nToken');
+    // res.sendStatus(200);
 });
+
+// userRouter.route('/logout').put(authToken, function (req, res) {
+//     const authHeader = req.headers["authorization"];
+//     jwt.sign(authHeader, "", { expiresIn: 1 } , (logout, err) => {
+//     if (logout) {
+//     res.send({msg : 'You have been Logged Out' });
+//     } else {
+//     res.send({msg:'Error'});
+//     }
+//     });
+//     });
 
 app.use("/api", userRouter);
 
@@ -152,7 +165,7 @@ craftProducts.get('/products/:type', (req, res) => {
 
 //////////// CREATE COMPANY & PRODUCT /////////////////
 
-craftProducts.route('/company').post((req, res) => {
+craftProducts.route('/company').post(verifyJwt1, (req, res) => {
     const company = new Company(req.body);
     company.save();
     return res.status(210).json(company);
