@@ -14,7 +14,10 @@ const SearchParams = () => {
         }};
         fetch("http://localhost:5000/api/company", options)
         .then((response) => response.json())
-        .then((companies) => setCompanies(companies));
+        .then((companies) => {
+            companies = companies.sort((a, b) =>(a.name > b.name) ? 1 : -1);
+            setCompanies(companies)
+        });
     },[]);
 
     // function getProducts(){
@@ -22,6 +25,10 @@ const SearchParams = () => {
     //     .then((response) => response.json())
     //     .then((movies) => (setProducts(movies)));
     // }
+
+    function navigateToCompanyDetail(companyName) {
+        console.log("RAAADIIIII", companyName);
+    }
 
     return(
         <div className="search-params">
@@ -41,7 +48,7 @@ const SearchParams = () => {
                 <tbody>
                     {companies && companies.map(comp => 
                         <tr key={comp.name}>
-                            <td>{comp.name}</td>
+                            <td onClick={() => navigateToCompanyDetail(comp.name)} className="name">{comp.name}</td>
                             <td>{comp.country}</td>
                             <td>{comp.establishmentYear}</td>
                         </tr>

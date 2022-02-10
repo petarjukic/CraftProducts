@@ -7,6 +7,8 @@ import Login from "./Login";
 import Logout from "./Logout";
 import Register from "./Register";
 import Products from "./Products";
+import CreateProduct from "./CreateProduct";
+import CreateCompany from "./CreateCompany";
 
 
 //npm run dev
@@ -17,6 +19,8 @@ const App = () => {
             <Router>            
                 <SearchParams path="/" />
                 <Products path="/products" />
+                <CreateProduct path="/createProduct" />
+                <CreateCompany path="/createCompany" />
                 {/* <Details path="/:genre/details/:id"/> */}
                 <Login path="/login" />
                 <Register path="/register" />

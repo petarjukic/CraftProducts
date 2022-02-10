@@ -11,8 +11,14 @@ const Products = () => {
         }};
         fetch("http://localhost:5000/api/products", options)
         .then((response) => response.json())
-        .then((products) => setProducts(products));
+        .then((products) => { 
+            products = products.sort((a, b) =>(a.productName > b.productName) ? 1 : -1);
+            setProducts(products) });
     },[]);
+
+    const navigateToProductDetail = (productName) => {
+        console.log("AAAAA ", productName);
+    }
 
     return(
         <div className="search-params">
@@ -33,7 +39,7 @@ const Products = () => {
                 <tbody>
                     {products && products.map(p => 
                         <tr key={p.productName}>
-                            <td>{p.productName}</td>
+                            <td onClick={() => navigateToProductDetail(p.productName)} className="name">{p.productName}</td>
                             <td>{p.color}</td>
                             <td>{p.type}</td>
                             <td>{p.companyName}</td>

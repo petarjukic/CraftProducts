@@ -12,6 +12,10 @@
     border: 2px solid rgb(163, 4, 4);
     padding: 0.5rem;
   }
+
+  .name:hover {
+    background-color: aliceblue;
+  }
   
   .search-params {
     width: 1100px;

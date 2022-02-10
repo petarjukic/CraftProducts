@@ -32437,12 +32437,18 @@ const SearchParams = () => {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
     };
-    fetch("http://localhost:5000/api/company", options).then(response => response.json()).then(companies => setCompanies(companies));
-  }, []);
+    fetch("http://localhost:5000/api/company", options).then(response => response.json()).then(companies => {
+      companies = companies.sort((a, b) => a.name > b.name ? 1 : -1);
+      setCompanies(companies);
+    });
+  }, []); // function getProducts(){
+  //     fetch(`http://localhost:5000/api/products?company=${company}`) ///CHECK
+  //     .then((response) => response.json())
+  //     .then((movies) => (setProducts(movies)));
+  // }
 
-  function getProducts() {
-    fetch(`http://localhost:5000/api/products?company=${company}`) ///CHECK
-    .then(response => response.json()).then(movies => setProducts(movies));
+  function navigateToCompanyDetail(companyName) {
+    console.log("RAAADIIIII", companyName);
   }
 
   return /*#__PURE__*/_react.default.createElement("div", {
@@ -32455,7 +32461,10 @@ const SearchParams = () => {
     onClick: () => (0, _router.navigate)('/logout')
   }, "Logout"), /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Company name"), /*#__PURE__*/_react.default.createElement("th", null, "Country"), /*#__PURE__*/_react.default.createElement("th", null, "Establishment year"))), /*#__PURE__*/_react.default.createElement("tbody", null, companies && companies.map(comp => /*#__PURE__*/_react.default.createElement("tr", {
     key: comp.name
-  }, /*#__PURE__*/_react.default.createElement("td", null, comp.name), /*#__PURE__*/_react.default.createElement("td", null, comp.country), /*#__PURE__*/_react.default.createElement("td", null, comp.establishmentYear))))));
+  }, /*#__PURE__*/_react.default.createElement("td", {
+    onClick: () => navigateToCompanyDetail(comp.name),
+    className: "name"
+  }, comp.name), /*#__PURE__*/_react.default.createElement("td", null, comp.country), /*#__PURE__*/_react.default.createElement("td", null, comp.establishmentYear))))));
 };
 
 var _default = SearchParams;
@@ -32752,8 +32761,16 @@ const Products = () => {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
     };
-    fetch("http://localhost:5000/api/products", options).then(response => response.json()).then(products => setProducts(products));
+    fetch("http://localhost:5000/api/products", options).then(response => response.json()).then(products => {
+      products = products.sort((a, b) => a.productName > b.productName ? 1 : -1);
+      setProducts(products);
+    });
   }, []);
+
+  const navigateToProductDetail = productName => {
+    console.log("AAAAA ", productName);
+  };
+
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "search-params"
   }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
@@ -32764,12 +32781,239 @@ const Products = () => {
     onClick: () => (0, _router.navigate)('/logout')
   }, "Logout")), /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Product name"), /*#__PURE__*/_react.default.createElement("th", null, "Color"), /*#__PURE__*/_react.default.createElement("th", null, "Type"), /*#__PURE__*/_react.default.createElement("th", null, "Company name"))), /*#__PURE__*/_react.default.createElement("tbody", null, products && products.map(p => /*#__PURE__*/_react.default.createElement("tr", {
     key: p.productName
-  }, /*#__PURE__*/_react.default.createElement("td", null, p.productName), /*#__PURE__*/_react.default.createElement("td", null, p.color), /*#__PURE__*/_react.default.createElement("td", null, p.type), /*#__PURE__*/_react.default.createElement("td", null, p.companyName))))));
+  }, /*#__PURE__*/_react.default.createElement("td", {
+    onClick: () => navigateToProductDetail(p.productName),
+    className: "name"
+  }, p.productName), /*#__PURE__*/_react.default.createElement("td", null, p.color), /*#__PURE__*/_react.default.createElement("td", null, p.type), /*#__PURE__*/_react.default.createElement("td", null, p.companyName))))));
 };
 
 var _default = Products;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js"}],"App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js"}],"CreateProduct.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const CreateProduct = () => {
+  const [price, setPrice] = (0, _react.useState)(""); //CHECK FOR NUMBER
+
+  const [productName, setProductName] = (0, _react.useState)("");
+  const [type, setType] = (0, _react.useState)("");
+  const [color, setColor] = (0, _react.useState)("");
+  const [alcoholPercentage, setAlcoholPercentage] = (0, _react.useState)("");
+  const [companyName, setCompanyName] = (0, _react.useState)("");
+
+  function onChangeType(e) {
+    setType(e.target.value);
+  }
+
+  function onChangeCompanyName(e) {
+    setCompanyName(e.target.value);
+  }
+
+  function onChangeColor(e) {
+    setColor(e.target.value);
+  }
+
+  function onChangeProductName(e) {
+    setProductName(e.target.value);
+  }
+
+  function onChangePrice(e) {
+    setPrice(e.target.value);
+  }
+
+  function onChangeAlcoholPercentage(e) {
+    setAlcoholPercentage(e.target.value);
+  }
+
+  const handleAdd = e => {
+    e.preventDefault();
+  };
+
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, "Create Product"), /*#__PURE__*/_react.default.createElement("form", {
+    onSubmit: e => handleAdd(e)
+  }, /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "price"
+  }, "Price"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: price,
+    onChange: onChangePrice,
+    onBlur: onChangePrice
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "productName"
+  }, "Product Name"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: productName,
+    onChange: onChangeProductName,
+    onBlur: onChangeProductName
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "alcoholPercentage"
+  }, "Alcohol Percentage"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: alcoholPercentage,
+    onChange: onChangeAlcoholPercentage,
+    onBlur: onChangeAlcoholPercentage
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "color"
+  }, "Color"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: color,
+    onChange: onChangeColor,
+    onBlur: onChangeColor
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "type"
+  }, "Type"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: type,
+    onChange: onChangeType,
+    onBlur: onChangeType
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "companyName"
+  }, "Company Name"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: companyName,
+    onChange: onChangeCompanyName,
+    onBlur: onChangeCompanyName
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("button", {
+    type: "submit"
+  }, "Insert")), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => navigate('/')
+  }, "Home"));
+};
+
+var _default = CreateProduct;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"CreateCompany.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const CreateCompany = () => {
+  const [name, setName] = (0, _react.useState)("");
+  const [establishmentYear, setEstablishmentYear] = (0, _react.useState)("");
+  const [country, seCountry] = (0, _react.useState)("");
+  const [alcoholPercentage, setAlcoholPercentage] = (0, _react.useState)("");
+  const [description, setDescription] = (0, _react.useState)("");
+  const [logo, setLogo] = (0, _react.useState)("");
+
+  function onChangeDescriptio(e) {
+    setDescription(e.target.value);
+  }
+
+  function onChangeLogo(e) {
+    setLogo(e.target.value);
+  }
+
+  function onChangeCountry(e) {
+    seCountry(e.target.value);
+  }
+
+  function onEstablishmentYear(e) {
+    setEstablishmentYear(e.target.value);
+  }
+
+  function onChangeName(e) {
+    setName(e.target.value);
+  }
+
+  function onChangeAlcoholPercentage(e) {
+    setAlcoholPercentage(e.target.value);
+  }
+
+  const handleAdd = e => {
+    e.preventDefault();
+    fetch("http://localhost:5000/api/company", {
+      method: "POST",
+      body: JSON.stringify({
+        name: name,
+        establishmentYear: establishmentYear,
+        alcoholPercentage: alcoholPercentage,
+        country: country,
+        description: description,
+        logo: logo
+      }),
+      headers: {
+        "Content-type": "application/json;charset=UTF-8"
+      }
+    }).then(resp => resp.json()).then(data => {
+      console.log("Data Created");
+      navigate('/');
+    }).catch(err => console.log(err));
+  };
+
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, "Create Company"), /*#__PURE__*/_react.default.createElement("form", {
+    onSubmit: e => handleAdd(e)
+  }, /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "name"
+  }, "Name"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: name,
+    onChange: onChangeName,
+    onBlur: onChangeName
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "establishmentYear"
+  }, "Establishment Year"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: establishmentYear,
+    onChange: onEstablishmentYear,
+    onBlur: onEstablishmentYear
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "alcoholPercentage"
+  }, "Alcohol Percentage"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: alcoholPercentage,
+    onChange: onChangeAlcoholPercentage,
+    onBlur: onChangeAlcoholPercentage
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "country"
+  }, "Country"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: country,
+    onChange: onChangeCountry,
+    onBlur: onChangeCountry
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "logo"
+  }, "Link for logo"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: logo,
+    onChange: onChangeLogo,
+    onBlur: onChangeLogo
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "description"
+  }, "Description"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: description,
+    onChange: onChangeDescriptio,
+    onBlur: onChangeDescriptio
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("button", {
+    type: "submit"
+  }, "Insert")), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => navigate('/')
+  }, "Home"));
+};
+
+var _default = CreateCompany;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireWildcard(require("react"));
@@ -32790,6 +33034,10 @@ var _Register = _interopRequireDefault(require("./Register"));
 
 var _Products = _interopRequireDefault(require("./Products"));
 
+var _CreateProduct = _interopRequireDefault(require("./CreateProduct"));
+
+var _CreateCompany = _interopRequireDefault(require("./CreateCompany"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -32802,6 +33050,10 @@ const App = () => {
     path: "/"
   }), /*#__PURE__*/_react.default.createElement(_Products.default, {
     path: "/products"
+  }), /*#__PURE__*/_react.default.createElement(_CreateProduct.default, {
+    path: "/createProduct"
+  }), /*#__PURE__*/_react.default.createElement(_CreateCompany.default, {
+    path: "/createCompany"
   }), /*#__PURE__*/_react.default.createElement(_Login.default, {
     path: "/login"
   }), /*#__PURE__*/_react.default.createElement(_Register.default, {
@@ -32812,7 +33064,7 @@ const App = () => {
 };
 
 (0, _reactDom.render)( /*#__PURE__*/_react.default.createElement(App, null), document.getElementById("root"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./SearchParams":"SearchParams.js","./Details":"Details.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Login":"Login.js","./Logout":"Logout.js","./Register":"Register.js","./Products":"Products.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./SearchParams":"SearchParams.js","./Details":"Details.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Login":"Login.js","./Logout":"Logout.js","./Register":"Register.js","./Products":"Products.js","./CreateProduct":"CreateProduct.js","./CreateCompany":"CreateCompany.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -32840,7 +33092,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64551" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50717" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
