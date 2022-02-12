@@ -9,6 +9,9 @@ import Register from "./Register";
 import Products from "./Products";
 import CreateProduct from "./CreateProduct";
 import CreateCompany from "./CreateCompany";
+import ProductDetails from "./ProductDetails";
+import { Route, Routes } from "react-router-dom";
+import CompanyDetails from "./CompanyDetails";
 
 
 //npm run dev
@@ -21,7 +24,8 @@ const App = () => {
                 <Products path="/products" />
                 <CreateProduct path="/createProduct" />
                 <CreateCompany path="/createCompany" />
-                {/* <Details path="/:genre/details/:id"/> */}
+                <ProductDetails path={"/product/details/:productName"} />
+                <CompanyDetails path={"/company/details/:name"} />
                 <Login path="/login" />
                 <Register path="/register" />
                 <Logout path="/logout" />

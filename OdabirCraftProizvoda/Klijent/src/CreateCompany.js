@@ -1,14 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import {navigate} from "@reach/router";
 
 
 const CreateCompany = () => {
     const [name, setName] = useState("");
     const [establishmentYear, setEstablishmentYear] = useState("");
     const [country, seCountry] = useState("");
-    const [alcoholPercentage, setAlcoholPercentage] = useState("");
     const [description, setDescription] = useState("");
     const [logo, setLogo] = useState("");
 
+    // useEffect(() => {
+    //     const options = {headers:{
+    //         Authorization: "Bearer " + localStorage.getItem("token")
+    //     }};
+    //     const bearerToken = options.headers.Authorization
+    //     const token = bearerToken ? bearerToken.split('Bearer ')[1] : undefined;
+    //     console.log("AAAAAAAAAA ", token);
+    // }, []);
 
     function onChangeDescriptio(e) {
         setDescription(e.target.value);
@@ -29,21 +37,20 @@ const CreateCompany = () => {
     function onChangeName(e) {
         setName(e.target.value);
     }
-
-    function onChangeAlcoholPercentage(e) {
-        setAlcoholPercentage(e.target.value);
-    }
     
     const handleAdd = (e) => {
         e.preventDefault();
-
-
-        fetch("http://localhost:5000/api/company", {
+        
+        const options = {headers:{
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }};
+        //const bearerToken = options.headers
+        //const token = bearerToken ? bearerToken.split('Bearer ')[1] : undefined;
+        fetch("http://localhost:5000/api/company", options, {
             method: "POST",
             body: JSON.stringify({
                 name: name,
                 establishmentYear: establishmentYear,
-                alcoholPercentage: alcoholPercentage,
                 country: country,
                 description: description,
                 logo: logo
@@ -52,10 +59,9 @@ const CreateCompany = () => {
         })
         .then((resp) => resp.json())
         .then((data) => {
-            console.log("Data Created");
             navigate('/'); 
         })
-        .catch((err)=>console.log(err));
+        .catch((err) => console.log(err));
     }
 
     return(
@@ -79,15 +85,6 @@ const CreateCompany = () => {
                 onChange={onEstablishmentYear}
                 onBlur={onEstablishmentYear}
             ></input><br/>
-
-            <label htmlFor="alcoholPercentage">Alcohol Percentage</label>
-            <input
-                type="text"
-                value={alcoholPercentage}
-                onChange={onChangeAlcoholPercentage}
-                onBlur={onChangeAlcoholPercentage}
-            ></input>
-            <br/>
 
             <label htmlFor="country">Country</label>
             <input

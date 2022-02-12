@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from "react";
 import Results from "./Result";
-import { navigate } from "@reach/router";
+import { Link, navigate } from "@reach/router";
 
 
 const SearchParams = () => {
@@ -9,26 +9,13 @@ const SearchParams = () => {
     const [productData, setProducts] = useState([]);
 
     useEffect(() => {
-        const options = {headers:{
-            Authorization: "Bearer " + localStorage.getItem("token")
-        }};
-        fetch("http://localhost:5000/api/company", options)
+        fetch("http://localhost:5000/api/company")
         .then((response) => response.json())
         .then((companies) => {
             companies = companies.sort((a, b) =>(a.name > b.name) ? 1 : -1);
             setCompanies(companies)
         });
     },[]);
-
-    // function getProducts(){
-    //     fetch(`http://localhost:5000/api/products?company=${company}`) ///CHECK
-    //     .then((response) => response.json())
-    //     .then((movies) => (setProducts(movies)));
-    // }
-
-    function navigateToCompanyDetail(companyName) {
-        console.log("RAAADIIIII", companyName);
-    }
 
     return(
         <div className="search-params">
@@ -48,7 +35,9 @@ const SearchParams = () => {
                 <tbody>
                     {companies && companies.map(comp => 
                         <tr key={comp.name}>
-                            <td onClick={() => navigateToCompanyDetail(comp.name)} className="name">{comp.name}</td>
+                            <Link to={"/company/details/" + comp.name}>
+                                <td className="name">{comp.name}</td>
+                            </Link>
                             <td>{comp.country}</td>
                             <td>{comp.establishmentYear}</td>
                         </tr>

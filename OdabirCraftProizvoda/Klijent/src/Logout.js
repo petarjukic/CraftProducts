@@ -1,10 +1,11 @@
 import React from "react";
-import { Redirect } from "@reach/router";
+import { navigate, Redirect } from "@reach/router";
 
 
 export const Logout = () =>{
     localStorage.removeItem("token");
-    return <Redirect to="/" />;
+   return <Redirect to="/" />;
+   //navigate("/");
 };
 
 export default Logout;
