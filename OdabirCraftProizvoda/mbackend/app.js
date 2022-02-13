@@ -46,7 +46,7 @@ function signJwt1(user_id) {
 }
 
 function verifyJwt1(req, res, next) {
-    const authorization = req.header('authorization');
+    const authorization = req.header('Authorization');
     const token = authorization ? authorization.split('Bearer ')[1] : undefined;
     if(!token) {
         return res.status(401).send("Unauthorized");
@@ -123,6 +123,8 @@ craftProducts.get('/company/:name', (req, res) => {
 });
 
 craftProducts.route('/company').get((req, res) => {
+    // const token = req.header('Authorization');  //CHECK FOR TOKEN
+    // console.log("TTTTTTTTtt ", token);
     Company.find((err, products) => {
         if(err) {
             res.send(err);
@@ -139,8 +141,8 @@ craftProducts.route('/products').get((req, res) => {
             res.send(err);
         }
         else {        
-            const us = req.user;
-            console.log("AAAAAAA ", us);
+            //const us = req.user;
+            //console.log("AAAAAAA ", us);
             // const userIfor = os.userInfo();
             // const emaila = userIfor.username;
             // console.log("AAAAAAA ", emaila);
@@ -149,8 +151,8 @@ craftProducts.route('/products').get((req, res) => {
     })
 });
 
-craftProducts.get('/products/:type', (req, res) => {
-    Product.find({type: req.params.type}, (err, type) => {
+craftProducts.get('/products/:productName', (req, res) => {
+    Product.find({productName: req.params.productName}, (err, type) => {
         if(err){
             res.send(err);
         }
@@ -166,6 +168,7 @@ craftProducts.get('/products/:type', (req, res) => {
 //////////// CREATE COMPANY & PRODUCT /////////////////
 
 craftProducts.route('/company').post(verifyJwt1, (req, res) => {
+    //console.log(verifyJwt1);
     const company = new Company(req.body);
     company.save();
     return res.status(210).json(company);
@@ -205,13 +208,13 @@ craftProducts.route('/product/:productName').delete(verifyJwt1, (req, res) => {
 
 //////////// UPDATE COMPANY & PRODUCT /////////////////
 
-craftProducts.route('/company/update/:id').put(verifyJwt1, (req, res) => {
+craftProducts.route('/company/update/:name').put(verifyJwt1, (req, res) => {
     try {
-        const id = req.params.id;
+        const name = req.params.name;
         const update = req.body;
         const options = {new: true};
 
-        Company.findByIdAndUpdate(id, update, options, (err, comp) => {
+        Company.findByIdAndUpdate(name, update, options, (err, comp) => {
             if(err) {
                 res.send(err);
             } else{
@@ -223,13 +226,13 @@ craftProducts.route('/company/update/:id').put(verifyJwt1, (req, res) => {
     }
 });
 
-craftProducts.route('/product/update/:id').put(verifyJwt1, (req, res) => {
+craftProducts.route('/product/update/:productName').put(verifyJwt1, (req, res) => {
     try { // FOR CHECKING IF PRODUCT EXIST
-        const id = req.params.id;
+        const productName = req.params.productName;
         const update = req.body;
         const options = {new: true}; // TO RETURN UPDATED RESULT
 
-        Product.findByIdAndUpdate(id, update, options, (err, prod) => {
+        Product.findByIdAndUpdate(productName, update, options, (err, prod) => {
             if(err) {
                 res.send(err);
             } else{
