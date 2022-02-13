@@ -13,10 +13,6 @@ const Products = () => {
             setProducts(products) });
     },[]);
 
-    const navigateToProductDetail = (productName) => {
-        console.log("AAAAA ", productName);
-    }
-
     return(
         <div className="search-params">
             <div>
@@ -37,7 +33,7 @@ const Products = () => {
                     {products && products.map(p => 
                         <tr key={p.productName}>
                             <Link to={"/product/details/" + p.productName}>
-                            <td onClick={() => navigateToProductDetail(p.productName)} className="name">{p.productName}</td>
+                            <td className="name">{p.productName}</td>
                             </Link>
                             <td>{p.color}</td>
                             <td>{p.type}</td>

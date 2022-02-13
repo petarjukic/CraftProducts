@@ -32347,7 +32347,7 @@ var createRoute = function createRoute(basepath) {
 var shouldNavigate = function shouldNavigate(event) {
   return !event.defaultPrevented && event.button === 0 && !(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 }; ////////////////////////////////////////////////////////////////////////
-},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","invariant":"../node_modules/invariant/browser.js","create-react-context":"../node_modules/create-react-context/lib/index.js","react-lifecycles-compat":"../node_modules/react-lifecycles-compat/react-lifecycles-compat.es.js","./lib/utils":"../node_modules/@reach/router/es/lib/utils.js","./lib/history":"../node_modules/@reach/router/es/lib/history.js"}],"Product.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","invariant":"../node_modules/invariant/browser.js","create-react-context":"../node_modules/create-react-context/lib/index.js","react-lifecycles-compat":"../node_modules/react-lifecycles-compat/react-lifecycles-compat.es.js","./lib/utils":"../node_modules/@reach/router/es/lib/utils.js","./lib/history":"../node_modules/@reach/router/es/lib/history.js"}],"product/Product.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32385,11 +32385,11 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Product = _interopRequireDefault(require("./Product"));
+var _Product = _interopRequireDefault(require("./product/Product"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// company, product
+// company, product 
 const Results = ({
   genre,
   movies
@@ -32407,7 +32407,7 @@ const Results = ({
 
 var _default = Results;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./Product":"Product.js"}],"SearchParams.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./product/Product":"product/Product.js"}],"SearchParams.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32695,7 +32695,7 @@ const Register = () => {
 exports.Register = Register;
 var _default = Register;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js"}],"Products.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js"}],"product/Products.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32720,11 +32720,6 @@ const Products = () => {
       setProducts(products);
     });
   }, []);
-
-  const navigateToProductDetail = productName => {
-    console.log("AAAAA ", productName);
-  };
-
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "search-params"
   }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
@@ -32738,14 +32733,13 @@ const Products = () => {
   }, /*#__PURE__*/_react.default.createElement(_router.Link, {
     to: "/product/details/" + p.productName
   }, /*#__PURE__*/_react.default.createElement("td", {
-    onClick: () => navigateToProductDetail(p.productName),
     className: "name"
   }, p.productName)), /*#__PURE__*/_react.default.createElement("td", null, p.color), /*#__PURE__*/_react.default.createElement("td", null, p.type), /*#__PURE__*/_react.default.createElement("td", null, p.companyName))))));
 };
 
 var _default = Products;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js"}],"CreateProduct.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js"}],"product/CreateProduct.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32851,7 +32845,7 @@ const CreateProduct = () => {
 
 var _default = CreateProduct;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js"}],"CreateCompany.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js"}],"company/CreateCompany.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32973,7 +32967,7 @@ const CreateCompany = () => {
 
 var _default = CreateCompany;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js"}],"ProductDetails.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js"}],"product/ProductDetails.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32996,11 +32990,41 @@ const ProductDetails = props => {
       setProduct(product);
     });
   }, []);
-  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Product name"), /*#__PURE__*/_react.default.createElement("th", null, "Color"), /*#__PURE__*/_react.default.createElement("th", null, "Type"), /*#__PURE__*/_react.default.createElement("th", null, "Company name"), /*#__PURE__*/_react.default.createElement("th", null, "Price"), /*#__PURE__*/_react.default.createElement("th", null, "Alcohol Percentage"))), /*#__PURE__*/_react.default.createElement("tbody", null, product && product.map(p => /*#__PURE__*/_react.default.createElement("tr", {
+
+  function deleteProduct(productName) {
+    const options = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    };
+    const config = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        productName
+      })
+    };
+    fetch("http://localhost:5000/api/product/" + productName, options, config).then(response => response.json()).then(response => {
+      if (response.error) {
+        alert(response.error);
+      } else {
+        alert(`${response} DELETED!`);
+        navigate("/");
+      }
+    });
+  }
+
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Product name"), /*#__PURE__*/_react.default.createElement("th", null, "Color"), /*#__PURE__*/_react.default.createElement("th", null, "Type"), /*#__PURE__*/_react.default.createElement("th", null, "Company name"), /*#__PURE__*/_react.default.createElement("th", null, "Price"), /*#__PURE__*/_react.default.createElement("th", null, "Alcohol Percentage"), /*#__PURE__*/_react.default.createElement("th", null, "Actions"))), /*#__PURE__*/_react.default.createElement("tbody", null, product && product.map(p => /*#__PURE__*/_react.default.createElement("tr", {
     key: p.productName
   }, /*#__PURE__*/_react.default.createElement("td", {
     className: "name"
-  }, p.productName), /*#__PURE__*/_react.default.createElement("td", null, p.color), /*#__PURE__*/_react.default.createElement("td", null, p.type), /*#__PURE__*/_react.default.createElement("td", null, p.companyName), /*#__PURE__*/_react.default.createElement("td", null, "$", p.price), /*#__PURE__*/_react.default.createElement("td", null, p.alcoholPercentage))))));
+  }, p.productName), /*#__PURE__*/_react.default.createElement("td", null, p.color), /*#__PURE__*/_react.default.createElement("td", null, p.type), /*#__PURE__*/_react.default.createElement("td", null, p.companyName), /*#__PURE__*/_react.default.createElement("td", null, "$", p.price), /*#__PURE__*/_react.default.createElement("td", null, p.alcoholPercentage), /*#__PURE__*/_react.default.createElement("td", null, /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => deleteProduct(p.productName)
+  }, "Delete"), /*#__PURE__*/_react.default.createElement(_router.Link, {
+    to: "/product/update/" + p.productName
+  }, /*#__PURE__*/_react.default.createElement("button", null, "Update"))))))));
 };
 
 var _default = ProductDetails;
@@ -35150,7 +35174,7 @@ function createSearchParams(init) {
     return memo.concat(Array.isArray(value) ? value.map(v => [key, v]) : [[key, value]]);
   }, []));
 }
-},{"react":"../node_modules/react/index.js","history":"../node_modules/history/index.js","react-router":"../node_modules/react-router/index.js"}],"CompanyDetails.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","history":"../node_modules/history/index.js","react-router":"../node_modules/react-router/index.js"}],"company/CompanyDetails.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35173,19 +35197,149 @@ const CompanyDetails = props => {
       setCompany(comp);
     });
   }, []);
-  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Name"), /*#__PURE__*/_react.default.createElement("th", null, "Establishment Year"), /*#__PURE__*/_react.default.createElement("th", null, "country"), /*#__PURE__*/_react.default.createElement("th", null, "Description"), /*#__PURE__*/_react.default.createElement("th", null, "Logo"))), /*#__PURE__*/_react.default.createElement("tbody", null, company && company.map(c => /*#__PURE__*/_react.default.createElement("tr", {
+
+  function deleteCompany(name) {
+    const options = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    };
+    const config = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name
+      })
+    };
+    fetch("http://localhost:5000/api/company/" + name, options, config).then(response => response.json()).then(response => {
+      if (response.error) {
+        alert(response.error);
+      } else {
+        alert(`${response} DELETED!`);
+        (0, _router.navigate)("/");
+      }
+    });
+  }
+
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Name"), /*#__PURE__*/_react.default.createElement("th", null, "Establishment Year"), /*#__PURE__*/_react.default.createElement("th", null, "country"), /*#__PURE__*/_react.default.createElement("th", null, "Description"), /*#__PURE__*/_react.default.createElement("th", null, "Logo"), /*#__PURE__*/_react.default.createElement("th", null, "Actions"))), /*#__PURE__*/_react.default.createElement("tbody", null, company && company.map(c => /*#__PURE__*/_react.default.createElement("tr", {
     key: c.name
   }, /*#__PURE__*/_react.default.createElement("td", {
     className: "name"
-  }, c.name), /*#__PURE__*/_react.default.createElement("td", null, c.establishmentYear), /*#__PURE__*/_react.default.createElement("td", null, c.country), /*#__PURE__*/_react.default.createElement("td", null, c.description), /*#__PURE__*/_react.default.createElement("td", null, /*#__PURE__*/_react.default.createElement("image", {
+  }, c.name), /*#__PURE__*/_react.default.createElement("td", null, c.establishmentYear), /*#__PURE__*/_react.default.createElement("td", null, c.country), /*#__PURE__*/_react.default.createElement("td", null, c.description), /*#__PURE__*/_react.default.createElement("td", null, /*#__PURE__*/_react.default.createElement("img", {
+    key: c.logo,
     src: c.logo,
     alt: c.name
-  })))))));
+  })), /*#__PURE__*/_react.default.createElement("td", null, /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => deleteCompany(c.name)
+  }, "Delete"), /*#__PURE__*/_react.default.createElement(_router.Link, {
+    to: "/company/update/" + c.name
+  }, /*#__PURE__*/_react.default.createElement("button", null, "Update"))))))));
 };
 
 var _default = CompanyDetails;
 exports.default = _default;
-},{"@reach/router":"../node_modules/@reach/router/es/index.js","react":"../node_modules/react/index.js"}],"App.js":[function(require,module,exports) {
+},{"@reach/router":"../node_modules/@reach/router/es/index.js","react":"../node_modules/react/index.js"}],"product/UpdateProduct.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const UpdateProduct = () => {
+  return /*#__PURE__*/_react.default.createElement("div", null);
+};
+
+var _default = UpdateProduct;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"company/UpdateCompany.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const UpdateCompany = props => {
+  const [company, setCompany] = (0, _react.useState)([]);
+  const [name, setName] = (0, _react.useState)("");
+  const [establishmentYear, setEstablishmentYear] = (0, _react.useState)("");
+  const [country, seCountry] = (0, _react.useState)("");
+  const [description, setDescription] = (0, _react.useState)("");
+  const [logo, setLogo] = (0, _react.useState)("");
+  (0, _react.useEffect)(() => {
+    fetch("http://localhost:5000/api/company/" + props.name).then(response => response.json()).then(comp => {
+      setCompany(comp);
+    });
+  }, []);
+
+  function onChangeDescriptio(e) {
+    setDescription(e.target.value);
+  }
+
+  function onChangeLogo(e) {
+    setLogo(e.target.value);
+  }
+
+  function onChangeCountry(e) {
+    seCountry(e.target.value);
+  }
+
+  function onEstablishmentYear(e) {
+    setEstablishmentYear(e.target.value);
+  }
+
+  function onChangeName(e) {
+    setName(e.target.value);
+  }
+
+  const handleUpdated = e => {
+    e.preventDefault();
+    const options = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    };
+    fetch("http://localhost:5000/api/company", options, {
+      method: "POST",
+      body: JSON.stringify({
+        name: name,
+        establishmentYear: establishmentYear,
+        country: country,
+        description: description,
+        logo: logo
+      }),
+      headers: {
+        "Content-type": "application/json;charset=UTF-8"
+      }
+    }).then(resp => resp.json()).then(data => {
+      navigate('/');
+    }).catch(err => console.log(err));
+  };
+
+  return /*#__PURE__*/_react.default.createElement("div", null, company.map(c => /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: c.name,
+    onChange: onChangeName,
+    onBlur: onChangeName
+  })));
+};
+
+var _default = UpdateCompany;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireWildcard(require("react"));
@@ -35204,17 +35358,21 @@ var _Logout = _interopRequireDefault(require("./Logout"));
 
 var _Register = _interopRequireDefault(require("./Register"));
 
-var _Products = _interopRequireDefault(require("./Products"));
+var _Products = _interopRequireDefault(require("./product/Products"));
 
-var _CreateProduct = _interopRequireDefault(require("./CreateProduct"));
+var _CreateProduct = _interopRequireDefault(require("./product/CreateProduct"));
 
-var _CreateCompany = _interopRequireDefault(require("./CreateCompany"));
+var _CreateCompany = _interopRequireDefault(require("./company/CreateCompany"));
 
-var _ProductDetails = _interopRequireDefault(require("./ProductDetails"));
+var _ProductDetails = _interopRequireDefault(require("./product/ProductDetails"));
 
 var _reactRouterDom = require("react-router-dom");
 
-var _CompanyDetails = _interopRequireDefault(require("./CompanyDetails"));
+var _CompanyDetails = _interopRequireDefault(require("./company/CompanyDetails"));
+
+var _UpdateProduct = _interopRequireDefault(require("./product/UpdateProduct"));
+
+var _UpdateCompany = _interopRequireDefault(require("./company/UpdateCompany"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35236,6 +35394,10 @@ const App = () => {
     path: "/product/details/:productName"
   }), /*#__PURE__*/_react.default.createElement(_CompanyDetails.default, {
     path: "/company/details/:name"
+  }), /*#__PURE__*/_react.default.createElement(_UpdateProduct.default, {
+    path: "/product/update/:productName"
+  }), /*#__PURE__*/_react.default.createElement(_UpdateCompany.default, {
+    path: "/company/update/:name"
   }), /*#__PURE__*/_react.default.createElement(_Login.default, {
     path: "/login"
   }), /*#__PURE__*/_react.default.createElement(_Register.default, {
@@ -35246,7 +35408,7 @@ const App = () => {
 };
 
 (0, _reactDom.render)( /*#__PURE__*/_react.default.createElement(App, null), document.getElementById("root"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./SearchParams":"SearchParams.js","./Details":"Details.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Login":"Login.js","./Logout":"Logout.js","./Register":"Register.js","./Products":"Products.js","./CreateProduct":"CreateProduct.js","./CreateCompany":"CreateCompany.js","./ProductDetails":"ProductDetails.js","react-router-dom":"../node_modules/react-router-dom/index.js","./CompanyDetails":"CompanyDetails.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./SearchParams":"SearchParams.js","./Details":"Details.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Login":"Login.js","./Logout":"Logout.js","./Register":"Register.js","./product/Products":"product/Products.js","./product/CreateProduct":"product/CreateProduct.js","./company/CreateCompany":"company/CreateCompany.js","./product/ProductDetails":"product/ProductDetails.js","react-router-dom":"../node_modules/react-router-dom/index.js","./company/CompanyDetails":"company/CompanyDetails.js","./product/UpdateProduct":"product/UpdateProduct.js","./company/UpdateCompany":"company/UpdateCompany.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -35274,7 +35436,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49418" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61893" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -1,7 +1,7 @@
 import React from "react";
-import Product from "./Product";
+import Product from "./product/Product";
 
-                // company, product
+    // company, product 
 const Results = ({genre, movies}) =>{
     return(
         <div className="search">

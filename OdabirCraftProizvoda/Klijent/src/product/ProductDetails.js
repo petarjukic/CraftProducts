@@ -1,5 +1,5 @@
-import { useParams } from "@reach/router";
-import React, { Component, useEffect, useState } from "react";
+import { Link, useParams } from "@reach/router";
+import React, { useEffect, useState } from "react";
 
 
 const ProductDetails = (props) => {
@@ -10,7 +10,31 @@ const ProductDetails = (props) => {
         .then((response) => response.json())
         .then((product) => { 
             setProduct(product)});
-    }, [])
+    }, []);
+
+    function deleteProduct(productName) {
+        const options = {headers:{
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }};
+        const config = {
+            method: "DELETE",
+            headers: {
+            "Content-Type": "application/json" 
+            },
+            body: JSON.stringify({productName})
+        }
+        fetch("http://localhost:5000/api/product/" + productName, options, config)
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) {
+                alert(response.error);
+              } else {
+                alert(`${response} DELETED!`);
+                navigate("/");
+              }  
+        });
+    }
+
     return(
         <div>
             <table>
@@ -22,6 +46,7 @@ const ProductDetails = (props) => {
                         <th>Company name</th>
                         <th>Price</th>
                         <th>Alcohol Percentage</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,12 +58,18 @@ const ProductDetails = (props) => {
                             <td>{p.companyName}</td>
                             <td>${p.price}</td>
                             <td>{p.alcoholPercentage}</td>
+                            <td>
+                                <button onClick={() => deleteProduct(p.productName)}>Delete</button>
+                                <Link to={"/product/update/" + p.productName}>
+                                    <button>Update</button>
+                                </Link>
+                            </td>
                         </tr>
                     )}
                 </tbody>
             </table>
         </div>
-    )
+    );
 }
 
 export default ProductDetails;
