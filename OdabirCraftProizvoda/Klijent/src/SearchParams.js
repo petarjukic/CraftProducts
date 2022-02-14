@@ -23,6 +23,9 @@ const SearchParams = () => {
             <button onClick={() => navigate('/login')}>Login</button>
             <button onClick={() => navigate('/register')}>Register</button>
             <button onClick={() => navigate('/logout')}>Logout</button>
+
+            <button onClick={() => navigate('/createProduct')}>Insert Product</button>
+            <button onClick={() => navigate('/createCompany')}>Insert Company</button>
             
             <table>
                 <thead>

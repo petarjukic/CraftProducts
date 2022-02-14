@@ -18,7 +18,7 @@ const CreateCompany = () => {
     //     console.log("AAAAAAAAAA ", token);
     // }, []);
 
-    function onChangeDescriptio(e) {
+    function onChangeDescription(e) {
         setDescription(e.target.value);
     }
 
@@ -107,8 +107,8 @@ const CreateCompany = () => {
             <input
                 type="text"
                 value={description}
-                onChange={onChangeDescriptio}
-                onBlur={onChangeDescriptio}
+                onChange={onChangeDescription}
+                onBlur={onChangeDescription}
             ></input>
             <br/><br/>
 

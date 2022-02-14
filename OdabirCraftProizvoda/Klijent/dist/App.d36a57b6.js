@@ -32445,7 +32445,11 @@ const SearchParams = () => {
     onClick: () => (0, _router.navigate)('/register')
   }, "Register"), /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => (0, _router.navigate)('/logout')
-  }, "Logout"), /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Company name"), /*#__PURE__*/_react.default.createElement("th", null, "Country"), /*#__PURE__*/_react.default.createElement("th", null, "Establishment year"))), /*#__PURE__*/_react.default.createElement("tbody", null, companies && companies.map(comp => /*#__PURE__*/_react.default.createElement("tr", {
+  }, "Logout"), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/createProduct')
+  }, "Insert Product"), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/createCompany')
+  }, "Insert Company"), /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Company name"), /*#__PURE__*/_react.default.createElement("th", null, "Country"), /*#__PURE__*/_react.default.createElement("th", null, "Establishment year"))), /*#__PURE__*/_react.default.createElement("tbody", null, companies && companies.map(comp => /*#__PURE__*/_react.default.createElement("tr", {
     key: comp.name
   }, /*#__PURE__*/_react.default.createElement(_router.Link, {
     to: "/company/details/" + comp.name
@@ -32456,45 +32460,7 @@ const SearchParams = () => {
 
 var _default = SearchParams;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./Result":"Result.js","@reach/router":"../node_modules/@reach/router/es/index.js"}],"Details.js":[function(require,module,exports) {
-// import React from "react";
-// import {navigate} from "@reach/router";
-// class Details extends React.Component{
-//     constructor(props){
-//         super(props);
-//         this.state = {loading:true, showModal:false, url:"https://www.imdb.com/search/"};
-//         this.props = {id: props.id, genre:props.genre};
-//     }
-//     componentDidMount(){
-//         fetch(`http://localhost:5000/api/movies?genre=${this.props.genre}`)
-//         .then((response)=>response.json())
-//         .then((movies)=>{
-//             let filteredMovie = movies.filter((movie)=>(movie._id == this.props.id));
-//             console.log(filteredMovie[0]);
-//             this.setState({
-//                 name:filteredMovie[0].name,
-//                 id:filteredMovie[0]._id,
-//                 images:filteredMovie[0].images,
-//                 loading:false
-//             });
-//         }).catch((err)=>(console.log(err)));
-//     }
-//     changeModalState = () => this.setState({showModal:!this.state.showModal});
-//     movieImdb = () => navigate(this.state.url);
-//     render(){
-//         const {images, name, loading, showModal} = this.state;
-//         return(
-//             <div className="details">
-//             <div>                
-//                 <h1>{name}</h1>
-//                 <h1>{loading ? "loading ...": "movie loaded"}</h1>              
-//             </div>
-//             </div>
-//         );
-//     }
-// }
-// export default Details;
-},{}],"Login.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./Result":"Result.js","@reach/router":"../node_modules/@reach/router/es/index.js"}],"Login.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32875,7 +32841,7 @@ const CreateCompany = () => {
   //     console.log("AAAAAAAAAA ", token);
   // }, []);
 
-  function onChangeDescriptio(e) {
+  function onChangeDescription(e) {
     setDescription(e.target.value);
   }
 
@@ -32956,8 +32922,8 @@ const CreateCompany = () => {
   }, "Description"), /*#__PURE__*/_react.default.createElement("input", {
     type: "text",
     value: description,
-    onChange: onChangeDescriptio,
-    onBlur: onChangeDescriptio
+    onChange: onChangeDescription,
+    onBlur: onChangeDescription
   }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("button", {
     type: "submit"
   }, "Insert")), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("button", {
@@ -35213,7 +35179,7 @@ const CompanyDetails = props => {
         name
       })
     };
-    fetch("http://localhost:5000/api/company/" + name, options, config).then(response => response.json()).then(response => {
+    fetch("http://localhost:5000/api/company/" + name, config).then(response => response.json()).then(response => {
       if (response.error) {
         alert(response.error);
       } else {
@@ -35235,7 +35201,9 @@ const CompanyDetails = props => {
     onClick: () => deleteCompany(c.name)
   }, "Delete"), /*#__PURE__*/_react.default.createElement(_router.Link, {
     to: "/company/update/" + c.name
-  }, /*#__PURE__*/_react.default.createElement("button", null, "Update"))))))));
+  }, /*#__PURE__*/_react.default.createElement("button", null, "Update")), /*#__PURE__*/_react.default.createElement(_router.Link, {
+    to: "/products/" + c.name
+  }, /*#__PURE__*/_react.default.createElement("button", null, "All Products"))))))));
 };
 
 var _default = CompanyDetails;
@@ -35248,17 +35216,137 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _router = require("@reach/router");
 
-const UpdateProduct = () => {
-  return /*#__PURE__*/_react.default.createElement("div", null);
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const UpdateProduct = props => {
+  const [id, setId] = (0, _react.useState)("");
+  const [price, setPrice] = (0, _react.useState)("");
+  const [alcoholPercentage, setAlcoholPercentage] = (0, _react.useState)("");
+  const [productName, setProductName] = (0, _react.useState)("");
+  const [color, setColor] = (0, _react.useState)("");
+  const [type, setType] = (0, _react.useState)("");
+  const [companyName, setCompanyName] = (0, _react.useState)("");
+  (0, _react.useEffect)(() => {
+    fetch("http://localhost:5000/api/products/" + props.productName).then(response => response.json()).then(prod => {
+      setId(prod[0]._id);
+      setPrice(prod[0].price);
+      setAlcoholPercentage(prod[0].alcoholPercentage);
+      setProductName(prod[0].productName);
+      setColor(prod[0].color);
+      setCompanyName(prod[0].companyName);
+      setType(prod[0].type);
+    });
+  }, []);
+
+  const handleUpdated = e => {
+    e.preventDefault();
+    const options = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    };
+    console.log("BBBBBB ", props._id);
+    fetch("http://localhost:5000/api/product/update/" + id, {
+      method: "PUT",
+      body: JSON.stringify({
+        price: price,
+        alcoholPercentage: alcoholPercentage,
+        productName: productName,
+        color: color,
+        type: type,
+        companyName: companyName
+      }),
+      headers: {
+        "Content-type": "application/json;charset=UTF-8"
+      }
+    }).then(resp => resp.json()).then(data => {
+      (0, _router.navigate)('/');
+    }).catch(err => console.log(err));
+  };
+
+  function onChangeProductName(e) {
+    setProductName(e.target.value);
+  }
+
+  function onChangeColor(e) {
+    setColor(e.target.value);
+  }
+
+  function onChangeType(e) {
+    setType(e.target.value);
+  }
+
+  function onChangeCompanyName(e) {
+    setCompanyName(e.target.value);
+  }
+
+  function onChangeAlcoholPercentage(e) {
+    setAlcoholPercentage(e.target.value);
+  }
+
+  function onChangePrice(e) {
+    setPrice(e.target.value);
+  }
+
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("form", {
+    onSubmit: e => handleUpdated(e)
+  }, /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "name"
+  }, "Product Name"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: productName,
+    onChange: onChangeProductName
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "establishmentYear"
+  }, "Color"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: color,
+    onChange: onChangeColor,
+    onBlur: onChangeColor
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "country"
+  }, "Type"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: type,
+    onChange: onChangeType,
+    onBlur: onChangeType
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "description"
+  }, "Company Name"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: companyName,
+    onChange: onChangeCompanyName,
+    onBlur: onChangeCompanyName
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "logo"
+  }, "Alcohol Percentage"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: alcoholPercentage,
+    onChange: onChangeAlcoholPercentage,
+    onBlur: onChangeAlcoholPercentage
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "logo"
+  }, "Price"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: price,
+    onChange: onChangePrice,
+    onBlur: onChangePrice
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("button", {
+    type: "submit"
+  }, "Update")), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/')
+  }, "Home"));
 };
 
 var _default = UpdateProduct;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"company/UpdateCompany.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js"}],"company/UpdateCompany.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35268,24 +35356,31 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _router = require("@reach/router");
+
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 const UpdateCompany = props => {
-  const [company, setCompany] = (0, _react.useState)([]);
+  const [id, setId] = (0, _react.useState)("");
   const [name, setName] = (0, _react.useState)("");
   const [establishmentYear, setEstablishmentYear] = (0, _react.useState)("");
-  const [country, seCountry] = (0, _react.useState)("");
+  const [country, setCountry] = (0, _react.useState)("");
   const [description, setDescription] = (0, _react.useState)("");
   const [logo, setLogo] = (0, _react.useState)("");
   (0, _react.useEffect)(() => {
     fetch("http://localhost:5000/api/company/" + props.name).then(response => response.json()).then(comp => {
-      setCompany(comp);
+      setId(comp[0]._id);
+      setName(comp[0].name);
+      setEstablishmentYear(comp[0].establishmentYear);
+      setCountry(comp[0].country);
+      setDescription(comp[0].description);
+      setLogo(comp[0].logo);
     });
   }, []);
 
-  function onChangeDescriptio(e) {
+  function onChangeDescription(e) {
     setDescription(e.target.value);
   }
 
@@ -35294,7 +35389,7 @@ const UpdateCompany = props => {
   }
 
   function onChangeCountry(e) {
-    seCountry(e.target.value);
+    setCountry(e.target.value);
   }
 
   function onEstablishmentYear(e) {
@@ -35312,8 +35407,9 @@ const UpdateCompany = props => {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
     };
-    fetch("http://localhost:5000/api/company", options, {
-      method: "POST",
+    console.log("BBBBBB ", props._id);
+    fetch("http://localhost:5000/api/company/update/" + id, {
+      method: "PUT",
       body: JSON.stringify({
         name: name,
         establishmentYear: establishmentYear,
@@ -35325,21 +35421,94 @@ const UpdateCompany = props => {
         "Content-type": "application/json;charset=UTF-8"
       }
     }).then(resp => resp.json()).then(data => {
-      navigate('/');
+      (0, _router.navigate)('/');
     }).catch(err => console.log(err));
   };
 
-  return /*#__PURE__*/_react.default.createElement("div", null, company.map(c => /*#__PURE__*/_react.default.createElement("input", {
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("form", {
+    onSubmit: e => handleUpdated(e)
+  }, /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "name"
+  }, "Name"), /*#__PURE__*/_react.default.createElement("input", {
     type: "text",
-    value: c.name,
-    onChange: onChangeName,
-    onBlur: onChangeName
-  })));
+    value: name,
+    onChange: onChangeName
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "establishmentYear"
+  }, "Establishment Year"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: establishmentYear,
+    onChange: onEstablishmentYear,
+    onBlur: onEstablishmentYear
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "country"
+  }, "Country"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: country,
+    onChange: onChangeCountry,
+    onBlur: onChangeCountry
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "description"
+  }, "Description"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: description,
+    onChange: onChangeDescription,
+    onBlur: onChangeDescription
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "logo"
+  }, "Link for logo"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: logo,
+    onChange: onChangeLogo,
+    onBlur: onChangeLogo
+  }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("button", {
+    type: "submit"
+  }, "Update")), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/')
+  }, "Home"));
 };
 
 var _default = UpdateCompany;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js"}],"product/CompanyProducts.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _router = require("@reach/router");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const CompanyProducts = props => {
+  const [products, setProducts] = (0, _react.useState)([]);
+  (0, _react.useEffect)(() => {
+    fetch("http://localhost:5000/api/company-products/" + props.companyName).then(response => response.json()).then(prod => {
+      setProducts(prod);
+    });
+  }, []);
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, "Products for ", props.companyName), /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Product name"), /*#__PURE__*/_react.default.createElement("th", null, "Color"), /*#__PURE__*/_react.default.createElement("th", null, "Type"), /*#__PURE__*/_react.default.createElement("th", null, "Company name"), /*#__PURE__*/_react.default.createElement("th", null, "Price"), /*#__PURE__*/_react.default.createElement("th", null, "Alcohol Percentage"), /*#__PURE__*/_react.default.createElement("th", null, "Actions"))), /*#__PURE__*/_react.default.createElement("tbody", null, products && products.map(p => /*#__PURE__*/_react.default.createElement("tr", {
+    key: p.productName
+  }, /*#__PURE__*/_react.default.createElement("td", {
+    className: "name"
+  }, p.productName), /*#__PURE__*/_react.default.createElement("td", null, p.color), /*#__PURE__*/_react.default.createElement("td", null, p.type), /*#__PURE__*/_react.default.createElement("td", null, p.companyName), /*#__PURE__*/_react.default.createElement("td", null, "$", p.price), /*#__PURE__*/_react.default.createElement("td", null, p.alcoholPercentage), /*#__PURE__*/_react.default.createElement("td", null, /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => deleteProduct(p.productName)
+  }, "Delete"), /*#__PURE__*/_react.default.createElement(_router.Link, {
+    to: "/product/update/" + p.productName
+  }, /*#__PURE__*/_react.default.createElement("button", null, "Update"))))))), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/')
+  }, "Home"));
+};
+
+var _default = CompanyProducts;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireWildcard(require("react"));
@@ -35347,8 +35516,6 @@ var _react = _interopRequireWildcard(require("react"));
 var _reactDom = require("react-dom");
 
 var _SearchParams = _interopRequireDefault(require("./SearchParams"));
-
-var _Details = _interopRequireDefault(require("./Details"));
 
 var _router = require("@reach/router");
 
@@ -35374,6 +35541,8 @@ var _UpdateProduct = _interopRequireDefault(require("./product/UpdateProduct"));
 
 var _UpdateCompany = _interopRequireDefault(require("./company/UpdateCompany"));
 
+var _CompanyProducts = _interopRequireDefault(require("./product/CompanyProducts"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -35398,6 +35567,8 @@ const App = () => {
     path: "/product/update/:productName"
   }), /*#__PURE__*/_react.default.createElement(_UpdateCompany.default, {
     path: "/company/update/:name"
+  }), /*#__PURE__*/_react.default.createElement(_CompanyProducts.default, {
+    path: "/products/:companyName"
   }), /*#__PURE__*/_react.default.createElement(_Login.default, {
     path: "/login"
   }), /*#__PURE__*/_react.default.createElement(_Register.default, {
@@ -35408,7 +35579,7 @@ const App = () => {
 };
 
 (0, _reactDom.render)( /*#__PURE__*/_react.default.createElement(App, null), document.getElementById("root"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./SearchParams":"SearchParams.js","./Details":"Details.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Login":"Login.js","./Logout":"Logout.js","./Register":"Register.js","./product/Products":"product/Products.js","./product/CreateProduct":"product/CreateProduct.js","./company/CreateCompany":"company/CreateCompany.js","./product/ProductDetails":"product/ProductDetails.js","react-router-dom":"../node_modules/react-router-dom/index.js","./company/CompanyDetails":"company/CompanyDetails.js","./product/UpdateProduct":"product/UpdateProduct.js","./company/UpdateCompany":"company/UpdateCompany.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./SearchParams":"SearchParams.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Login":"Login.js","./Logout":"Logout.js","./Register":"Register.js","./product/Products":"product/Products.js","./product/CreateProduct":"product/CreateProduct.js","./company/CreateCompany":"company/CreateCompany.js","./product/ProductDetails":"product/ProductDetails.js","react-router-dom":"../node_modules/react-router-dom/index.js","./company/CompanyDetails":"company/CompanyDetails.js","./product/UpdateProduct":"product/UpdateProduct.js","./company/UpdateCompany":"company/UpdateCompany.js","./product/CompanyProducts":"product/CompanyProducts.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -35436,7 +35607,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61893" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65105" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

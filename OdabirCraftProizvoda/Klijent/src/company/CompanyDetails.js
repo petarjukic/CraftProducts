@@ -23,7 +23,7 @@ const CompanyDetails = (props) => {
             },
             body: JSON.stringify({name})
         }
-        fetch("http://localhost:5000/api/company/" + name, options, config)
+        fetch("http://localhost:5000/api/company/" + name, config)
         .then(response => response.json())
         .then(response => {
             if (response.error) {
@@ -61,6 +61,9 @@ const CompanyDetails = (props) => {
                                 <button onClick={() => deleteCompany(c.name)}>Delete</button>
                                 <Link to={"/company/update/" + c.name}>
                                     <button>Update</button>
+                                </Link>
+                                <Link to={"/products/" + c.name}>
+                                    <button>All Products</button>
                                 </Link>
                             </td>
                         </tr>

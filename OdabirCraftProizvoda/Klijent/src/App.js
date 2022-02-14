@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {render} from "react-dom";
 import SearchParams from "./SearchParams";
-import Details from "./Details";
 import {Router} from "@reach/router";
 import Login from "./Login";
 import Logout from "./Logout";
@@ -14,6 +13,7 @@ import { Route, Routes } from "react-router-dom";
 import CompanyDetails from "./company/CompanyDetails";
 import UpdateProduct from "./product/UpdateProduct";
 import UpdateCompany from "./company/UpdateCompany";
+import CompanyProducts from "./product/CompanyProducts";
 
 
 //npm run dev
@@ -30,6 +30,7 @@ const App = () => {
                 <CompanyDetails path={"/company/details/:name"} />
                 <UpdateProduct path={"/product/update/:productName"} />
                 <UpdateCompany path={"/company/update/:name"} />
+                <CompanyProducts path={"/products/:companyName"} />
                 <Login path="/login" />
                 <Register path="/register" />
                 <Logout path="/logout" />
