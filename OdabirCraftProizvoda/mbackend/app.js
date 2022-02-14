@@ -124,7 +124,6 @@ craftProducts.get('/company/:name', (req, res) => {
 
 craftProducts.route('/company').get((req, res) => {
     // const token = req.header('Authorization');  //CHECK FOR TOKEN
-    // console.log("TTTTTTTTtt ", token);
     Company.find((err, products) => {
         if(err) {
             res.send(err);
@@ -134,6 +133,17 @@ craftProducts.route('/company').get((req, res) => {
         }
     });
 })
+
+craftProducts.route('/company-products/:companyName').get((req, res) => {
+    Product.find({ companyName: req.params.companyName }, (err, products) => {
+        if(err) {
+            res.send(err);
+        }
+        else {
+            return res.json(products);
+        }
+    });
+});
 
 craftProducts.route('/products').get((req, res) => {
     Product.find((err, products) => {
@@ -168,7 +178,6 @@ craftProducts.get('/products/:productName', (req, res) => {
 //////////// CREATE COMPANY & PRODUCT /////////////////
 
 craftProducts.route('/company').post(verifyJwt1, (req, res) => {
-    //console.log(verifyJwt1);
     const company = new Company(req.body);
     company.save();
     return res.status(210).json(company);
@@ -183,7 +192,7 @@ craftProducts.route('/product').post(verifyJwt1, (req, res) => {
 
 //////////// DELETE COMPANY & PRODUCT /////////////////
 
-craftProducts.route('/company/:name').delete(verifyJwt1, (req, res) => {
+craftProducts.route('/company/:name').delete((req, res) => {
     Company.remove({name: req.params.name}, (err, company) => {
         if(err) {
             res.send(err);
@@ -208,9 +217,9 @@ craftProducts.route('/product/:productName').delete(verifyJwt1, (req, res) => {
 
 //////////// UPDATE COMPANY & PRODUCT /////////////////
 
-craftProducts.route('/company/update/:name').put(verifyJwt1, (req, res) => {
+craftProducts.route('/company/update/:id').put(verifyJwt1, (req, res) => {
     try {
-        const name = req.params.name;
+        const name = req.params.id;
         const update = req.body;
         const options = {new: true};
 
