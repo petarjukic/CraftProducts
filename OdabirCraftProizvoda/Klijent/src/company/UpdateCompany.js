@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {navigate, useParams} from "@reach/router";
+import { UserContext } from "../UserContext";
 
 
 const UpdateCompany = (props) => {
@@ -9,6 +10,8 @@ const UpdateCompany = (props) => {
     const [country, setCountry] = useState("");
     const [description, setDescription] = useState("");
     const [logo, setLogo] = useState("");
+
+    const {user, setUser} = useContext(UserContext);
 
 
     useEffect(() => {

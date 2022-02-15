@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { navigate } from "@reach/router";
+import { UserContext } from "./UserContext";
 
 
 export const Login = () =>{
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const {user, setUser} = useContext(UserContext);
 
     function onChangeEmail(e) {
         setEmail(e.target.value);
@@ -29,6 +31,7 @@ export const Login = () =>{
         .then((data)=>{
             if (data.accessToken) {
                 localStorage.setItem("token", data.accessToken);
+                setUser(email);
                 navigate('/');
             } else {
                 console.log("Authentication error");

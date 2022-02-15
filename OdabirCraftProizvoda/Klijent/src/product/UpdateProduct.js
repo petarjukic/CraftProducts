@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {navigate, useParams} from "@reach/router";
+import { UserContext } from "../UserContext";
 
 
 const UpdateProduct = (props) => {
@@ -10,6 +11,8 @@ const UpdateProduct = (props) => {
     const [color, setColor] = useState("");
     const [type, setType] = useState("");
     const [companyName, setCompanyName] = useState("");
+
+    const {user, setUser} = useContext(UserContext);
 
     
     useEffect(() => {
@@ -31,8 +34,8 @@ const UpdateProduct = (props) => {
         const options = {headers:{
             Authorization: "Bearer " + localStorage.getItem("token")
         }};
-        console.log("BBBBBB ", props._id)
-        fetch("http://localhost:5000/api/product/update/" + id, {
+        
+        fetch("http://localhost:5000/api/product/update/" + id, options, {
             method: "PUT",
             body: JSON.stringify({
                 price: price,

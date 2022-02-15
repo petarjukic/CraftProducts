@@ -1,9 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { Link, navigate } from "@reach/router";
+import { UserContext } from "../UserContext";
+
 
 const Products = () => {
     const [products, setProducts] = useState([]);
-    const [productData, setProducts1] = useState([]);
+    const {user, setUser} = useContext(UserContext);
 
     useEffect(() => {
         fetch("http://localhost:5000/api/products")
@@ -16,9 +18,13 @@ const Products = () => {
     return(
         <div className="search-params">
             <div>
-                <button onClick={() => navigate('/login')}>Login</button>
-                <button onClick={() => navigate('/register')}>Register</button>
-                <button onClick={() => navigate('/logout')}>Logout</button>
+                { user ?
+                    <button onClick={() => navigate('/login')}>Login</button> :
+                    <div>
+                        <button onClick={() => navigate('/register')}>Register</button>
+                        <button onClick={() => navigate('/logout')}>Logout</button>
+                    </div>
+                }
             </div>
             <table>
                 <thead>

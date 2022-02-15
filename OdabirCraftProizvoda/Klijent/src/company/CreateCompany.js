@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {navigate} from "@reach/router";
+import { UserContext } from "../UserContext";
 
 
 const CreateCompany = () => {
@@ -8,6 +9,7 @@ const CreateCompany = () => {
     const [country, seCountry] = useState("");
     const [description, setDescription] = useState("");
     const [logo, setLogo] = useState("");
+    const {user, setUser} = useContext(UserContext);
 
     // useEffect(() => {
     //     const options = {headers:{

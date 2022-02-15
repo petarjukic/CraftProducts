@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {navigate} from "@reach/router";
+import { UserContext } from "../UserContext";
 
 
 const CreateProduct = () => {
@@ -9,6 +10,7 @@ const CreateProduct = () => {
     const [color, setColor] = useState("");
     const [alcoholPercentage, setAlcoholPercentage] = useState("");
     const [companyName, setCompanyName] = useState("");
+    const {user, setUser} = useContext(UserContext);
 
 
     function onChangeType(e) {
@@ -38,6 +40,27 @@ const CreateProduct = () => {
     const handleAdd = (e) => {
         e.preventDefault();
 
+        const options = {headers:{
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }};
+        
+        fetch("http://localhost:5000/api/product", options, {
+            method: "POST",
+            body: JSON.stringify({
+                price: price,
+                productName: productName,
+                type: type,
+                color: color,
+                alcoholPercentage: alcoholPercentage,
+                companyName: companyName
+            }),
+            headers: {"Content-type": "application/json;charset=UTF-8"}
+        })
+        .then((resp) => resp.json())
+        .then((data) => {
+            navigate('/'); 
+        })
+        .catch((err) => console.log(err));
     }
 
     return(

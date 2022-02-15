@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {navigate, Link} from "@reach/router";
+import { UserContext } from "../UserContext";
 
 
 const CompanyProducts = (props) => {
     const [products, setProducts] = useState([]);
+    const {user, setUser} = useContext(UserContext);
 
     useEffect(() => {
         fetch("http://localhost:5000/api/company-products/" + props.companyName)

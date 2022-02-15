@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { navigate, Redirect } from "@reach/router";
+import { UserContext } from "./UserContext";
 
 
-export const Logout = () =>{
+const Logout = () =>{
+    const { user, setUser } = useContext(UserContext);
     localStorage.removeItem("token");
-   return <Redirect to="/" />;
-   //navigate("/");
+    setUser("");
+   navigate("/");
+   return(
+       <div></div>
+   )
 };
 
 export default Logout;

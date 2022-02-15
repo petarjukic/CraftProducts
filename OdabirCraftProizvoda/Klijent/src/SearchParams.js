@@ -1,17 +1,22 @@
 import React, {useState, useEffect, useContext} from "react";
-import Results from "./Result";
 import { Link, navigate } from "@reach/router";
+import { UserContext } from "./UserContext";
 
 
 const SearchParams = () => {
     const [companies, setCompanies] = useState([]);
-    const [company, setCompany] = useState("");
-    const [productData, setProducts] = useState([]);
+    const {user, setUser} = useContext(UserContext);
+
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/company")
+        const options = {headers:{
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }};
+
+        fetch("http://localhost:5000/api/company", options)
         .then((response) => response.json())
         .then((companies) => {
+            console.log("OVO JE EMAIL ", user);
             companies = companies.sort((a, b) =>(a.name > b.name) ? 1 : -1);
             setCompanies(companies)
         });
@@ -19,11 +24,15 @@ const SearchParams = () => {
 
     return(
         <div className="search-params">
-            {/* check how to hide buttons */}
-            <button onClick={() => navigate('/login')}>Login</button>
-            <button onClick={() => navigate('/register')}>Register</button>
-            <button onClick={() => navigate('/logout')}>Logout</button>
+            {user ? 
+                <button onClick={() => navigate('/logout')}>Logout</button> : 
+                <div> 
+                    <button onClick={() => navigate('/login')}>Login</button>
+                    <button onClick={() => navigate('/register')}>Register</button>
+                </div>
+            }
 
+            <button onClick={() => navigate('/products')}>Products</button>
             <button onClick={() => navigate('/createProduct')}>Insert Product</button>
             <button onClick={() => navigate('/createCompany')}>Insert Company</button>
             
