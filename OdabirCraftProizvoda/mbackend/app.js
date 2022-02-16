@@ -4,7 +4,6 @@ import urlencoded from 'body-parser';
 import { UserModel } from './models/UserModel.js';
 import { Company } from './models/CompanyModel.js';
 import signJwt from './jwt.js';
-import verifyJwt from './jwt.js';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import jwt from 'jsonwebtoken';
@@ -48,6 +47,7 @@ function signJwt1(user_id) {
 function verifyJwt1(req, res, next) {
     const authorization = req.header('Authorization');
     const token = authorization ? authorization.split('Bearer ')[1] : undefined;
+    console.log(token, " AAAAA");
     if(!token) {
         return res.status(401).send("Unauthorized");
     }
@@ -84,6 +84,17 @@ userRouter.route('/register').post((req, res) => {
     })
 });
 
+userRouter.route('/check/:email').get((req, res) => {
+    UserModel.find({email: req.params.email}, (err, email) => {
+        if(err){
+            res.send(err);
+        }
+        else{
+            return res.json(email);
+        }
+    });
+});
+
 userRouter.route('/logout').get((req, res) => {
     // res.cookie('jwt', '', {maxAge: 1}); // mozda 1 u {1}
     // req.user.deleteToken(req.token, (err, user) => {
@@ -93,17 +104,6 @@ userRouter.route('/logout').get((req, res) => {
     // res.clearCookie('nToken');
     // res.sendStatus(200);
 });
-
-// userRouter.route('/logout').put(authToken, function (req, res) {
-//     const authHeader = req.headers["authorization"];
-//     jwt.sign(authHeader, "", { expiresIn: 1 } , (logout, err) => {
-//     if (logout) {
-//     res.send({msg : 'You have been Logged Out' });
-//     } else {
-//     res.send({msg:'Error'});
-//     }
-//     });
-//     });
 
 app.use("/api", userRouter);
 
@@ -124,6 +124,7 @@ craftProducts.get('/company/:name', (req, res) => {
 
 craftProducts.route('/company').get((req, res) => {
     // const token = req.header('Authorization');  //CHECK FOR TOKEN
+    // console.log("DDDDDDDD ", token)
     Company.find((err, products) => {
         if(err) {
             res.send(err);
@@ -191,6 +192,17 @@ craftProducts.route('/product').post(verifyJwt1, (req, res) => {
 
 
 //////////// DELETE COMPANY & PRODUCT /////////////////
+
+craftProducts.get('/checkProduct/:companyName', (req, res) => {
+    Product.find({companyName: req.params.companyName}, (err, type) => {
+        if(err){
+            res.send(err);
+        }
+        else{
+            return res.json(type);
+        }
+    });
+});
 
 craftProducts.route('/company/:name').delete((req, res) => {
     Company.remove({name: req.params.name}, (err, company) => {
