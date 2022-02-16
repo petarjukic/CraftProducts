@@ -32384,12 +32384,26 @@ const SearchParams = () => {
     user,
     setUser
   } = (0, _react.useContext)(_UserContext.UserContext);
+  const [isAdmin, setIsAdmin] = (0, _react.useState)(false);
   (0, _react.useEffect)(() => {
     const options = {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
     };
+
+    if (user) {
+      fetch("http://localhost:5000/api/check/" + user).then(response => response.json()).then(email => {
+        email.map(em => {
+          console.log(em.role);
+
+          if (em.role == "admin") {
+            setIsAdmin(true);
+          }
+        });
+      });
+    }
+
     fetch("http://localhost:5000/api/company", options).then(response => response.json()).then(companies => {
       console.log("OVO JE EMAIL ", user);
       companies = companies.sort((a, b) => a.name > b.name ? 1 : -1);
@@ -32401,16 +32415,14 @@ const SearchParams = () => {
   }, user ? /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => (0, _router.navigate)('/logout')
   }, "Logout") : /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
-    onClick: () => (0, _router.navigate)('/login')
-  }, "Login"), /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => (0, _router.navigate)('/register')
-  }, "Register")), /*#__PURE__*/_react.default.createElement("button", {
-    onClick: () => (0, _router.navigate)('/products')
-  }, "Products"), /*#__PURE__*/_react.default.createElement("button", {
+  }, "Register")), isAdmin ? /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => (0, _router.navigate)('/createProduct')
   }, "Insert Product"), /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => (0, _router.navigate)('/createCompany')
-  }, "Insert Company"), /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Company name"), /*#__PURE__*/_react.default.createElement("th", null, "Country"), /*#__PURE__*/_react.default.createElement("th", null, "Establishment year"))), /*#__PURE__*/_react.default.createElement("tbody", null, companies && companies.map(comp => /*#__PURE__*/_react.default.createElement("tr", {
+  }, "Insert Company")) : /*#__PURE__*/_react.default.createElement("div", null), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/products')
+  }, "Products"), /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Company name"), /*#__PURE__*/_react.default.createElement("th", null, "Country"), /*#__PURE__*/_react.default.createElement("th", null, "Establishment year"))), /*#__PURE__*/_react.default.createElement("tbody", null, companies && companies.map(comp => /*#__PURE__*/_react.default.createElement("tr", {
     key: comp.name
   }, /*#__PURE__*/_react.default.createElement(_router.Link, {
     to: "/company/details/" + comp.name
@@ -32420,88 +32432,6 @@ const SearchParams = () => {
 };
 
 var _default = SearchParams;
-exports.default = _default;
-},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js","./UserContext":"UserContext.js"}],"Login.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = exports.Login = void 0;
-
-var _react = _interopRequireWildcard(require("react"));
-
-var _router = require("@reach/router");
-
-var _UserContext = require("./UserContext");
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-const Login = () => {
-  const [email, setEmail] = (0, _react.useState)("");
-  const [password, setPassword] = (0, _react.useState)("");
-  const {
-    user,
-    setUser
-  } = (0, _react.useContext)(_UserContext.UserContext);
-
-  function onChangeEmail(e) {
-    setEmail(e.target.value);
-  }
-
-  function onChangePassword(e) {
-    setPassword(e.target.value);
-  }
-
-  function handleLogin(e) {
-    e.preventDefault();
-    fetch("http://localhost:5000/api/login", {
-      method: "POST",
-      body: JSON.stringify({
-        email: email,
-        password: password
-      }),
-      headers: {
-        "Content-type": "application/json;charset=UTF-8"
-      }
-    }).then(resp => resp.json()).then(data => {
-      if (data.accessToken) {
-        localStorage.setItem("token", data.accessToken);
-        setUser(email);
-        (0, _router.navigate)('/');
-      } else {
-        console.log("Authentication error");
-      }
-    }).catch(err => console.log(err));
-  }
-
-  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("form", {
-    onSubmit: e => {
-      handleLogin(e);
-    }
-  }, /*#__PURE__*/_react.default.createElement("label", {
-    htmlFor: "email"
-  }, "Email"), /*#__PURE__*/_react.default.createElement("input", {
-    type: "text",
-    value: email,
-    onChange: onChangeEmail,
-    onBlur: onChangeEmail
-  }), /*#__PURE__*/_react.default.createElement("label", {
-    htmlFor: "password"
-  }, "Password"), /*#__PURE__*/_react.default.createElement("input", {
-    type: "password",
-    value: password,
-    onChange: onChangePassword,
-    onBlur: onChangePassword
-  }), /*#__PURE__*/_react.default.createElement("button", {
-    type: "submit"
-  }, "Login")));
-};
-
-exports.Login = Login;
-var _default = Login;
 exports.default = _default;
 },{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js","./UserContext":"UserContext.js"}],"Logout.js":[function(require,module,exports) {
 "use strict";
@@ -32555,6 +32485,9 @@ const Register = () => {
   const [name, setName] = (0, _react.useState)("");
   const [password, setPassword] = (0, _react.useState)("");
   const [password2, setPassword2] = (0, _react.useState)("");
+  (0, _react.useEffect)(() => {
+    console.log(window.location.pathname);
+  }, []);
 
   function onChangeName(e) {
     setName(e.target.value);
@@ -32668,13 +32601,15 @@ const Products = () => {
   }, []);
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "search-params"
-  }, /*#__PURE__*/_react.default.createElement("div", null, user ? /*#__PURE__*/_react.default.createElement("button", {
-    onClick: () => (0, _router.navigate)('/login')
-  }, "Login") : /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
+  }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, user, " USER"), !user ? /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/')
+  }, "Login"), /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => (0, _router.navigate)('/register')
-  }, "Register"), /*#__PURE__*/_react.default.createElement("button", {
+  }, "Register")) : /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => (0, _router.navigate)('/logout')
-  }, "Logout"))), /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Product name"), /*#__PURE__*/_react.default.createElement("th", null, "Color"), /*#__PURE__*/_react.default.createElement("th", null, "Type"), /*#__PURE__*/_react.default.createElement("th", null, "Company name"))), /*#__PURE__*/_react.default.createElement("tbody", null, products && products.map(p => /*#__PURE__*/_react.default.createElement("tr", {
+  }, "Logout")), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/')
+  }, "Home")), /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Product name"), /*#__PURE__*/_react.default.createElement("th", null, "Color"), /*#__PURE__*/_react.default.createElement("th", null, "Type"), /*#__PURE__*/_react.default.createElement("th", null, "Company name"))), /*#__PURE__*/_react.default.createElement("tbody", null, products && products.map(p => /*#__PURE__*/_react.default.createElement("tr", {
     key: p.productName
   }, /*#__PURE__*/_react.default.createElement(_router.Link, {
     to: "/product/details/" + p.productName
@@ -32970,11 +32905,27 @@ const ProductDetails = props => {
     user,
     setUser
   } = (0, _react.useContext)(_UserContext.UserContext);
+  const [isAdmin, setIsAdmin] = (0, _react.useState)(false);
   (0, _react.useEffect)(() => {
     fetch("http://localhost:5000/api/products/" + props.productName).then(response => response.json()).then(product => {
+      check();
       setProduct(product);
     });
   }, []);
+
+  function check() {
+    if (user) {
+      fetch("http://localhost:5000/api/check/" + user).then(response => response.json()).then(email => {
+        email.map(em => {
+          console.log(em.role);
+
+          if (em.role == "admin") {
+            setIsAdmin(true);
+          }
+        });
+      });
+    }
+  }
 
   function deleteProduct(productName) {
     const options = {
@@ -33001,15 +32952,19 @@ const ProductDetails = props => {
     });
   }
 
-  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Product name"), /*#__PURE__*/_react.default.createElement("th", null, "Color"), /*#__PURE__*/_react.default.createElement("th", null, "Type"), /*#__PURE__*/_react.default.createElement("th", null, "Company name"), /*#__PURE__*/_react.default.createElement("th", null, "Price"), /*#__PURE__*/_react.default.createElement("th", null, "Alcohol Percentage"), /*#__PURE__*/_react.default.createElement("th", null, "Actions"))), /*#__PURE__*/_react.default.createElement("tbody", null, product && product.map(p => /*#__PURE__*/_react.default.createElement("tr", {
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Product name"), /*#__PURE__*/_react.default.createElement("th", null, "Color"), /*#__PURE__*/_react.default.createElement("th", null, "Type"), /*#__PURE__*/_react.default.createElement("th", null, "Company name"), /*#__PURE__*/_react.default.createElement("th", null, "Price"), /*#__PURE__*/_react.default.createElement("th", null, "Alcohol Percentage"), isAdmin ? /*#__PURE__*/_react.default.createElement("th", null, "Actions") : /*#__PURE__*/_react.default.createElement("th", null))), /*#__PURE__*/_react.default.createElement("tbody", null, product && product.map(p => /*#__PURE__*/_react.default.createElement("tr", {
     key: p.productName
   }, /*#__PURE__*/_react.default.createElement("td", {
     className: "name"
-  }, p.productName), /*#__PURE__*/_react.default.createElement("td", null, p.color), /*#__PURE__*/_react.default.createElement("td", null, p.type), /*#__PURE__*/_react.default.createElement("td", null, p.companyName), /*#__PURE__*/_react.default.createElement("td", null, "$", p.price), /*#__PURE__*/_react.default.createElement("td", null, p.alcoholPercentage), /*#__PURE__*/_react.default.createElement("td", null, /*#__PURE__*/_react.default.createElement("button", {
+  }, p.productName), /*#__PURE__*/_react.default.createElement("td", null, p.color), /*#__PURE__*/_react.default.createElement("td", null, p.type), /*#__PURE__*/_react.default.createElement("td", null, p.companyName), /*#__PURE__*/_react.default.createElement("td", null, "$", p.price), /*#__PURE__*/_react.default.createElement("td", null, p.alcoholPercentage), /*#__PURE__*/_react.default.createElement("td", null, isAdmin ? /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => deleteProduct(p.productName)
   }, "Delete"), /*#__PURE__*/_react.default.createElement(_router.Link, {
     to: "/product/update/" + p.productName
-  }, /*#__PURE__*/_react.default.createElement("button", null, "Update"))))))));
+  }, /*#__PURE__*/_react.default.createElement("button", null, "Update")), /*#__PURE__*/_react.default.createElement(_router.Link, {
+    to: "/"
+  }, /*#__PURE__*/_react.default.createElement("button", null, "Home"))) : /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_router.Link, {
+    to: "/"
+  }, /*#__PURE__*/_react.default.createElement("button", null, "Home")))))))));
 };
 
 var _default = ProductDetails;
@@ -33038,7 +32993,20 @@ const CompanyDetails = props => {
     user,
     setUser
   } = (0, _react.useContext)(_UserContext.UserContext);
+  const [isAdmin, setIsAdmin] = (0, _react.useState)(false);
   (0, _react.useEffect)(() => {
+    if (user) {
+      fetch("http://localhost:5000/api/check/" + user).then(response => response.json()).then(email => {
+        email.map(em => {
+          console.log(em.role);
+
+          if (em.role == "admin") {
+            setIsAdmin(true);
+          }
+        });
+      });
+    }
+
     fetch("http://localhost:5000/api/company/" + props.name).then(response => response.json()).then(comp => {
       setCompany(comp);
     });
@@ -33059,17 +33027,27 @@ const CompanyDetails = props => {
         name
       })
     };
-    fetch("http://localhost:5000/api/company/" + name, config).then(response => response.json()).then(response => {
-      if (response.error) {
-        alert(response.error);
+    fetch("http://localhost:5000/api/checkProduct/" + name).then(response => response.json()).then(product => {
+      if (product.error) {
+        alert(product.error);
       } else {
-        alert(`${response} DELETED!`);
-        (0, _router.navigate)("/");
+        if (product.length == 0) {
+          fetch("http://localhost:5000/api/company/" + name, config).then(response => response.json()).then(response => {
+            if (response.error) {
+              alert(response.error);
+            } else {
+              alert("DATA DELETED!");
+              (0, _router.navigate)("/");
+            }
+          });
+        } else {
+          alert("DATA IS RELATED, UNABLE TO DELETE");
+        }
       }
     });
   }
 
-  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Name"), /*#__PURE__*/_react.default.createElement("th", null, "Establishment Year"), /*#__PURE__*/_react.default.createElement("th", null, "country"), /*#__PURE__*/_react.default.createElement("th", null, "Description"), /*#__PURE__*/_react.default.createElement("th", null, "Logo"), /*#__PURE__*/_react.default.createElement("th", null, "Actions"))), /*#__PURE__*/_react.default.createElement("tbody", null, company && company.map(c => /*#__PURE__*/_react.default.createElement("tr", {
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Name"), /*#__PURE__*/_react.default.createElement("th", null, "Establishment Year"), /*#__PURE__*/_react.default.createElement("th", null, "country"), /*#__PURE__*/_react.default.createElement("th", null, "Description"), /*#__PURE__*/_react.default.createElement("th", null, "Logo"), isAdmin ? /*#__PURE__*/_react.default.createElement("th", null, "Actions") : /*#__PURE__*/_react.default.createElement("th", null))), /*#__PURE__*/_react.default.createElement("tbody", null, company && company.map(c => /*#__PURE__*/_react.default.createElement("tr", {
     key: c.name
   }, /*#__PURE__*/_react.default.createElement("td", {
     className: "name"
@@ -33077,11 +33055,13 @@ const CompanyDetails = props => {
     key: c.logo,
     src: c.logo,
     alt: c.name
-  })), /*#__PURE__*/_react.default.createElement("td", null, /*#__PURE__*/_react.default.createElement("button", {
+  })), /*#__PURE__*/_react.default.createElement("td", null, /*#__PURE__*/_react.default.createElement(_router.Link, {
+    to: "/"
+  }, /*#__PURE__*/_react.default.createElement("button", null, "Home")), isAdmin ? /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => deleteCompany(c.name)
   }, "Delete"), /*#__PURE__*/_react.default.createElement(_router.Link, {
     to: "/company/update/" + c.name
-  }, /*#__PURE__*/_react.default.createElement("button", null, "Update")), /*#__PURE__*/_react.default.createElement(_router.Link, {
+  }, /*#__PURE__*/_react.default.createElement("button", null, "Update"))) : /*#__PURE__*/_react.default.createElement("div", null), /*#__PURE__*/_react.default.createElement(_router.Link, {
     to: "/products/" + c.name
   }, /*#__PURE__*/_react.default.createElement("button", null, "All Products"))))))));
 };
@@ -33416,8 +33396,6 @@ var _SearchParams = _interopRequireDefault(require("./SearchParams"));
 
 var _router = require("@reach/router");
 
-var _Login = _interopRequireDefault(require("./Login"));
-
 var _Logout = _interopRequireDefault(require("./Logout"));
 
 var _Register = _interopRequireDefault(require("./Register"));
@@ -33449,15 +33427,66 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 //npm run dev
 const App = () => {
   const [user, setUser] = (0, _react.useState)("");
-  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_UserContext.UserContext.Provider, {
+  const [email, setEmail] = (0, _react.useState)("");
+  const [password, setPassword] = (0, _react.useState)("");
+
+  function onChangeEmail(e) {
+    setEmail(e.target.value);
+  }
+
+  function onChangePassword(e) {
+    setPassword(e.target.value);
+  }
+
+  function handleLogin(e) {
+    e.preventDefault();
+    fetch("http://localhost:5000/api/login", {
+      method: "POST",
+      body: JSON.stringify({
+        email: email,
+        password: password
+      }),
+      headers: {
+        "Content-type": "application/json;charset=UTF-8"
+      }
+    }).then(resp => resp.json()).then(data => {
+      if (data.accessToken) {
+        localStorage.setItem("token", data.accessToken);
+        setUser(email);
+        (0, _router.navigate)('/products');
+      } else {
+        console.log("Authentication error");
+      }
+    }).catch(err => console.log(err));
+  }
+
+  return /*#__PURE__*/_react.default.createElement("div", null, window.location.pathname != "/register" ? /*#__PURE__*/_react.default.createElement("h2", null, "To") : /*#__PURE__*/_react.default.createElement("h2", null, "OVO"), !user ? /*#__PURE__*/_react.default.createElement("form", {
+    onSubmit: e => {
+      handleLogin(e);
+    }
+  }, /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "email"
+  }, "Email"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: email,
+    onChange: onChangeEmail,
+    onBlur: onChangeEmail
+  }), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "password"
+  }, "Password"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "password",
+    value: password,
+    onChange: onChangePassword,
+    onBlur: onChangePassword
+  }), /*#__PURE__*/_react.default.createElement("button", {
+    type: "submit"
+  }, "Login")) : /*#__PURE__*/_react.default.createElement("h1", null, "AAAA"), /*#__PURE__*/_react.default.createElement(_UserContext.UserContext.Provider, {
     value: {
       user,
       setUser
     }
   }, /*#__PURE__*/_react.default.createElement(_router.Router, null, /*#__PURE__*/_react.default.createElement(_SearchParams.default, {
     path: "/"
-  }), /*#__PURE__*/_react.default.createElement(_Login.default, {
-    path: "/login"
   }), /*#__PURE__*/_react.default.createElement(_Products.default, {
     path: "/products"
   }), /*#__PURE__*/_react.default.createElement(_CreateProduct.default, {
@@ -33482,7 +33511,7 @@ const App = () => {
 };
 
 (0, _reactDom.render)( /*#__PURE__*/_react.default.createElement(App, null), document.getElementById("root"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./SearchParams":"SearchParams.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Login":"Login.js","./Logout":"Logout.js","./Register":"Register.js","./product/Products":"product/Products.js","./product/CreateProduct":"product/CreateProduct.js","./company/CreateCompany":"company/CreateCompany.js","./product/ProductDetails":"product/ProductDetails.js","./company/CompanyDetails":"company/CompanyDetails.js","./product/UpdateProduct":"product/UpdateProduct.js","./company/UpdateCompany":"company/UpdateCompany.js","./product/CompanyProducts":"product/CompanyProducts.js","./UserContext":"UserContext.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./SearchParams":"SearchParams.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Logout":"Logout.js","./Register":"Register.js","./product/Products":"product/Products.js","./product/CreateProduct":"product/CreateProduct.js","./company/CreateCompany":"company/CreateCompany.js","./product/ProductDetails":"product/ProductDetails.js","./company/CompanyDetails":"company/CompanyDetails.js","./product/UpdateProduct":"product/UpdateProduct.js","./company/UpdateCompany":"company/UpdateCompany.js","./product/CompanyProducts":"product/CompanyProducts.js","./UserContext":"UserContext.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -33510,7 +33539,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57800" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63569" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

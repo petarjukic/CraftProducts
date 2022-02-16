@@ -6,11 +6,26 @@ import { UserContext } from "../UserContext";
 const CompanyDetails = (props) => {
     const [company, setCompany] = useState([]);
     const {user, setUser} = useContext(UserContext);
+    const [isAdmin, setIsAdmin] = useState(false);
+
 
     useEffect(() => {
+        if(user) {
+            fetch("http://localhost:5000/api/check/" + user)
+            .then((response) => response.json())
+            .then((email) => {
+                email.map((em) => {
+                    console.log(em.role)
+                    if(em.role == "admin") {
+                        setIsAdmin(true);
+                    }
+                })
+            })
+        }
+
         fetch("http://localhost:5000/api/company/" + props.name)
         .then((response) => response.json())
-        .then((comp) => { 
+        .then((comp) => {
             setCompany(comp)});
     }, []);
 
@@ -25,16 +40,31 @@ const CompanyDetails = (props) => {
             },
             body: JSON.stringify({name})
         }
-        fetch("http://localhost:5000/api/company/" + name, config)
+
+       fetch("http://localhost:5000/api/checkProduct/" + name)
         .then(response => response.json())
-        .then(response => {
-            if (response.error) {
-                alert(response.error);
-              } else {
-                alert(`${response} DELETED!`);
-                navigate("/");
-              }  
-        });
+        .then(product => {
+            if(product.error) {
+                alert(product.error);
+            }
+            else {
+                if(product.length == 0) {
+                    fetch("http://localhost:5000/api/company/" + name, config)
+                    .then(response => response.json())
+                    .then(response => {
+                        if (response.error) {
+                            alert(response.error);
+                        } else {
+                            alert("DATA DELETED!");
+                            navigate("/");
+                        }  
+                    });
+                }
+                else {
+                    alert("DATA IS RELATED, UNABLE TO DELETE");
+                }
+            }
+        })
     }
 
     return(
@@ -47,8 +77,7 @@ const CompanyDetails = (props) => {
                         <th>country</th>
                         <th>Description</th>
                         <th>Logo</th>
-                        {/* IF USER IS ADMIN */}
-                        <th>Actions</th> 
+                        {isAdmin ? <th>Actions</th> : <th></th> }
                     </tr>
                 </thead>
                 <tbody>
@@ -60,10 +89,18 @@ const CompanyDetails = (props) => {
                             <td>{c.description}</td>
                             <td><img key={c.logo} src={c.logo} alt={c.name} /></td>
                             <td>
-                                <button onClick={() => deleteCompany(c.name)}>Delete</button>
-                                <Link to={"/company/update/" + c.name}>
-                                    <button>Update</button>
+                                <Link to={"/" }>
+                                    <button>Home</button>
                                 </Link>
+                                {isAdmin ? <div>
+                                        <button onClick={() => deleteCompany(c.name)}>Delete</button>
+                                        <Link to={"/company/update/" + c.name}>
+                                            <button>Update</button>
+                                        </Link>
+                                    </div> :
+                                <div>
+                                </div>
+                                }
                                 <Link to={"/products/" + c.name}>
                                     <button>All Products</button>
                                 </Link>

@@ -6,13 +6,31 @@ import { UserContext } from "../UserContext";
 const ProductDetails = (props) => {
     const [product, setProduct] = useState([]);
     const {user, setUser} = useContext(UserContext);
+    const [isAdmin, setIsAdmin] = useState(false);
+
 
     useEffect(() => {
         fetch("http://localhost:5000/api/products/" + props.productName)
         .then((response) => response.json())
         .then((product) => { 
+            check()
             setProduct(product)});
     }, []);
+
+    function check() {
+        if(user) {
+            fetch("http://localhost:5000/api/check/" + user)
+            .then((response) => response.json())
+            .then((email) => {
+                email.map((em) => {
+                    console.log(em.role)
+                    if(em.role == "admin") {
+                        setIsAdmin(true);
+                    }
+                })
+            })
+        }
+    }
 
     function deleteProduct(productName) {
         const options = {headers:{
@@ -48,7 +66,7 @@ const ProductDetails = (props) => {
                         <th>Company name</th>
                         <th>Price</th>
                         <th>Alcohol Percentage</th>
-                        <th>Actions</th>
+                        {isAdmin ? <th>Actions</th> : <th></th> }
                     </tr>
                 </thead>
                 <tbody>
@@ -61,10 +79,21 @@ const ProductDetails = (props) => {
                             <td>${p.price}</td>
                             <td>{p.alcoholPercentage}</td>
                             <td>
-                                <button onClick={() => deleteProduct(p.productName)}>Delete</button>
-                                <Link to={"/product/update/" + p.productName}>
-                                    <button>Update</button>
-                                </Link>
+                                { isAdmin ? <div>
+                                    <button onClick={() => deleteProduct(p.productName)}>Delete</button>
+                                    <Link to={"/product/update/" + p.productName}>
+                                        <button>Update</button>
+                                    </Link>
+                                    <Link to={"/" }>
+                                        <button>Home</button>
+                                    </Link>
+                                </div> : 
+                                <div>
+                                    <Link to={"/" }>
+                                        <button>Home</button>
+                                    </Link>
+                                </div>
+                                }
                             </td>
                         </tr>
                     )}

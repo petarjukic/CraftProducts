@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {navigate} from "@reach/router";
 
 
@@ -8,6 +8,9 @@ export const Register = () =>{
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
 
+    useEffect(() => {
+        console.log(window.location.pathname);
+    }, [])
 
     function onChangeName(e) {
         setName(e.target.value);

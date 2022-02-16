@@ -6,12 +6,26 @@ import { UserContext } from "./UserContext";
 const SearchParams = () => {
     const [companies, setCompanies] = useState([]);
     const {user, setUser} = useContext(UserContext);
+    const [isAdmin, setIsAdmin] = useState(false);
 
 
     useEffect(() => {
         const options = {headers:{
             Authorization: "Bearer " + localStorage.getItem("token")
         }};
+
+        if(user) {
+            fetch("http://localhost:5000/api/check/" + user)
+            .then((response) => response.json())
+            .then((email) => {
+                email.map((em) => {
+                    console.log(em.role)
+                    if(em.role == "admin") {
+                        setIsAdmin(true);
+                    }
+                })
+            })
+        }
 
         fetch("http://localhost:5000/api/company", options)
         .then((response) => response.json())
@@ -27,14 +41,17 @@ const SearchParams = () => {
             {user ? 
                 <button onClick={() => navigate('/logout')}>Logout</button> : 
                 <div> 
-                    <button onClick={() => navigate('/login')}>Login</button>
                     <button onClick={() => navigate('/register')}>Register</button>
                 </div>
             }
-
+            {isAdmin ? <div>
+                    <button onClick={() => navigate('/createProduct')}>Insert Product</button>
+                    <button onClick={() => navigate('/createCompany')}>Insert Company</button>
+                </div> : 
+                <div>        
+                </div>
+            }
             <button onClick={() => navigate('/products')}>Products</button>
-            <button onClick={() => navigate('/createProduct')}>Insert Product</button>
-            <button onClick={() => navigate('/createCompany')}>Insert Company</button>
             
             <table>
                 <thead>

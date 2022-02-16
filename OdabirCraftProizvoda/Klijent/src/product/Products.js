@@ -18,13 +18,17 @@ const Products = () => {
     return(
         <div className="search-params">
             <div>
-                { user ?
-                    <button onClick={() => navigate('/login')}>Login</button> :
-                    <div>
+                <h2>{user} USER</h2>
+                { !user ?
+                   <div>
+                        <button onClick={() => navigate('/')}>Login</button>
                         <button onClick={() => navigate('/register')}>Register</button>
+                    </div> :
+                    <div>
                         <button onClick={() => navigate('/logout')}>Logout</button>
                     </div>
                 }
+                <button onClick={() => navigate('/')}>Home</button>
             </div>
             <table>
                 <thead>
