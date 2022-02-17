@@ -47,7 +47,6 @@ function signJwt1(user_id) {
 function verifyJwt1(req, res, next) {
     const authorization = req.header('Authorization');
     const token = authorization ? authorization.split('Bearer ')[1] : undefined;
-    console.log(token, " AAAAA");
     if(!token) {
         return res.status(401).send("Unauthorized");
     }
@@ -96,7 +95,7 @@ userRouter.route('/check/:email').get((req, res) => {
 });
 
 userRouter.route('/logout').get((req, res) => {
-    // res.cookie('jwt', '', {maxAge: 1}); // mozda 1 u {1}
+    // res.cookie('jwt', '', {maxAge: 1});
     // req.user.deleteToken(req.token, (err, user) => {
     //     if(err) return res.status(400).send(err);
     //         res.sendStatus(200);
@@ -123,8 +122,6 @@ craftProducts.get('/company/:name', (req, res) => {
 });
 
 craftProducts.route('/company').get((req, res) => {
-    // const token = req.header('Authorization');  //CHECK FOR TOKEN
-    // console.log("DDDDDDDD ", token)
     Company.find((err, products) => {
         if(err) {
             res.send(err);
@@ -152,11 +149,6 @@ craftProducts.route('/products').get((req, res) => {
             res.send(err);
         }
         else {        
-            //const us = req.user;
-            //console.log("AAAAAAA ", us);
-            // const userIfor = os.userInfo();
-            // const emaila = userIfor.username;
-            // console.log("AAAAAAA ", emaila);
             return res.json(products);
         }
     })
@@ -177,13 +169,6 @@ craftProducts.get('/products/:productName', (req, res) => {
 
 
 //////////// CREATE COMPANY & PRODUCT /////////////////
-
-// craftProducts.post('/company', verifyJwt1, (req, res) => {
-
-//     const company = new Company(req.body);
-//     company.save();
-//     return res.status(210).json(company);
-// })
 
 craftProducts.route('/company').post(verifyJwt1, (req, res) => {
     const company = new Company(req.body);
@@ -211,7 +196,7 @@ craftProducts.get('/checkProduct/:companyName', (req, res) => {
     });
 });
 
-craftProducts.route('/company/:name').delete((req, res) => {
+craftProducts.route('/company/:name').delete(verifyJwt1, (req, res) => {
     Company.remove({name: req.params.name}, (err, company) => {
         if(err) {
             res.send(err);
