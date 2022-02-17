@@ -48,13 +48,13 @@ const UpdateCompany = (props) => {
 
     const handleUpdated = (e) => {
         e.preventDefault();
-        
-        const options = {headers:{
-            Authorization: "Bearer " + localStorage.getItem("token")
-        }};
-        console.log("BBBBBB ", props._id)
+    
         fetch("http://localhost:5000/api/company/update/" + id, {
             method: "PUT",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token"),
+                "Content-type": "application/json;charset=UTF-8"
+            },
             body: JSON.stringify({
                 name: name,
                 establishmentYear: establishmentYear,
@@ -62,7 +62,6 @@ const UpdateCompany = (props) => {
                 description: description,
                 logo: logo
             }),
-            headers: {"Content-type": "application/json;charset=UTF-8"}
         })
         .then((resp) => resp.json())
         .then((data) => {

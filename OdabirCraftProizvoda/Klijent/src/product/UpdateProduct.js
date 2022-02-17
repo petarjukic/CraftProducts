@@ -31,12 +31,12 @@ const UpdateProduct = (props) => {
     const handleUpdated = (e) => {
         e.preventDefault();
         
-        const options = {headers:{
-            Authorization: "Bearer " + localStorage.getItem("token")
-        }};
-        
-        fetch("http://localhost:5000/api/product/update/" + id, options, {
+        fetch("http://localhost:5000/api/product/update/" + id, {
             method: "PUT",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token"),
+                "Content-type": "application/json;charset=UTF-8"
+            },
             body: JSON.stringify({
                 price: price,
                 alcoholPercentage: alcoholPercentage,
@@ -45,7 +45,6 @@ const UpdateProduct = (props) => {
                 type: type,
                 companyName: companyName
             }),
-            headers: {"Content-type": "application/json;charset=UTF-8"}
         })
         .then((resp) => resp.json())
         .then((data) => {

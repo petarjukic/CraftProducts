@@ -8,20 +8,18 @@ export const Register = () =>{
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
 
-    const [flag, setFlag] = useState(false)
+//    const [flag, setFlag] = useState(false)
 
-    useEffect(() => {
-        console.log(window.location.pathname);
-        //setFlag(true);
-        if(window.location.pathname != "/register") {
-            console.log("NIJEEE")
-            window.location.reload();
-        }
-        else {
-            console.log("JEEE")
-        }
-        //window.location.reload();
-    }, [])
+    // useEffect(() => {
+    //     console.log(window.location.pathname);
+    //     if(window.location.pathname != "/register") {
+    //         console.log("NIJEEE")
+    //         window.location.reload();
+    //     }
+    //     else {
+    //         console.log("JEEE")
+    //     }
+    // }, [])
 
     function onChangeName(e) {
         setName(e.target.value);

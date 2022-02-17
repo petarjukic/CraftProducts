@@ -32486,19 +32486,17 @@ const Register = () => {
   const [email, setEmail] = (0, _react.useState)("");
   const [name, setName] = (0, _react.useState)("");
   const [password, setPassword] = (0, _react.useState)("");
-  const [password2, setPassword2] = (0, _react.useState)("");
-  const [flag, setFlag] = (0, _react.useState)(false);
-  (0, _react.useEffect)(() => {
-    console.log(window.location.pathname); //setFlag(true);
-
-    if (window.location.pathname != "/register") {
-      console.log("NIJEEE");
-      window.location.reload();
-    } else {
-      console.log("JEEE");
-    } //window.location.reload();
-
-  }, []);
+  const [password2, setPassword2] = (0, _react.useState)(""); //    const [flag, setFlag] = useState(false)
+  // useEffect(() => {
+  //     console.log(window.location.pathname);
+  //     if(window.location.pathname != "/register") {
+  //         console.log("NIJEEE")
+  //         window.location.reload();
+  //     }
+  //     else {
+  //         console.log("JEEE")
+  //     }
+  // }, [])
 
   function onChangeName(e) {
     setName(e.target.value);
@@ -32612,7 +32610,7 @@ const Products = () => {
   }, []);
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "search-params"
-  }, window.location.pathname != "/register" ? /*#__PURE__*/_react.default.createElement("h2", null, "To window.location.reload()") : /*#__PURE__*/_react.default.createElement("h2", null, "OVO"), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, user, " USER"), !user ? /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
+  }, /*#__PURE__*/_react.default.createElement("div", null, !user ? /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => (0, _router.navigate)('/login')
   }, "Login"), /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => (0, _router.navigate)('/register')
@@ -32650,8 +32648,7 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 const CreateProduct = () => {
-  const [price, setPrice] = (0, _react.useState)(""); //CHECK FOR NUMBER
-
+  const [price, setPrice] = (0, _react.useState)("");
   const [productName, setProductName] = (0, _react.useState)("");
   const [type, setType] = (0, _react.useState)("");
   const [color, setColor] = (0, _react.useState)("");
@@ -32688,13 +32685,12 @@ const CreateProduct = () => {
 
   const handleAdd = e => {
     e.preventDefault();
-    const options = {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-    };
-    fetch("http://localhost:5000/api/product", options, {
+    fetch("http://localhost:5000/api/product", {
       method: "POST",
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("token"),
+        "Content-type": "application/json;charset=UTF-8"
+      },
       body: JSON.stringify({
         price: price,
         productName: productName,
@@ -32702,10 +32698,7 @@ const CreateProduct = () => {
         color: color,
         alcoholPercentage: alcoholPercentage,
         companyName: companyName
-      }),
-      headers: {
-        "Content-type": "application/json;charset=UTF-8"
-      }
+      })
     }).then(resp => resp.json()).then(data => {
       (0, _router.navigate)('/');
     }).catch(err => console.log(err));
@@ -32792,16 +32785,6 @@ const CreateCompany = () => {
     user,
     setUser
   } = (0, _react.useContext)(_UserContext.UserContext);
-  (0, _react.useEffect)(() => {
-    const options = {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-    };
-    const bearerToken = options.headers.Authorization;
-    const token = bearerToken ? bearerToken.split('Bearer ')[1] : undefined;
-    console.log("AAAAAAAAAA ", token);
-  }, []);
 
   function onChangeDescription(e) {
     setDescription(e.target.value);
@@ -32830,21 +32813,19 @@ const CreateCompany = () => {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
     };
-    console.log("TOKEN KD ADD , ", options); //const bearerToken = options.headers
-    //const token = bearerToken ? bearerToken.split('Bearer ')[1] : undefined;
-
-    fetch("http://localhost:5000/api/company", options, {
+    fetch("http://localhost:5000/api/company", {
       method: "POST",
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("token"),
+        "Content-type": "application/json;charset=UTF-8"
+      },
       body: JSON.stringify({
         name: name,
         establishmentYear: establishmentYear,
         country: country,
         description: description,
         logo: logo
-      }),
-      headers: {
-        "Content-type": "application/json;charset=UTF-8"
-      }
+      })
     }).then(resp => resp.json()).then(data => {
       (0, _router.navigate)('/');
     }).catch(err => console.log(err));
@@ -32943,25 +32924,20 @@ const ProductDetails = props => {
   }
 
   function deleteProduct(productName) {
-    const options = {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-    };
-    const config = {
+    fetch("http://localhost:5000/api/product/" + productName, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json"
+        "Authorization": "Bearer " + localStorage.getItem("token"),
+        "Content-type": "application/json;charset=UTF-8"
       },
       body: JSON.stringify({
         productName
       })
-    };
-    fetch("http://localhost:5000/api/product/" + productName, options, config).then(response => response.json()).then(response => {
+    }).then(response => response.json()).then(response => {
       if (response.error) {
         alert(response.error);
       } else {
-        alert(`${response} DELETED!`);
+        alert("DATA DELETED!");
         navigate("/");
       }
     });
@@ -33028,26 +33004,21 @@ const CompanyDetails = props => {
   }, []);
 
   function deleteCompany(name) {
-    const options = {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-    };
-    const config = {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name
-      })
-    };
     fetch("http://localhost:5000/api/checkProduct/" + name).then(response => response.json()).then(product => {
       if (product.error) {
         alert(product.error);
       } else {
         if (product.length == 0) {
-          fetch("http://localhost:5000/api/company/" + name, config).then(response => response.json()).then(response => {
+          fetch("http://localhost:5000/api/company/" + name, {
+            method: "DELETE",
+            headers: {
+              "Authorization": "Bearer " + localStorage.getItem("token"),
+              "Content-type": "application/json;charset=UTF-8"
+            },
+            body: JSON.stringify({
+              name
+            })
+          }).then(response => response.json()).then(response => {
             if (response.error) {
               alert(response.error);
             } else {
@@ -33127,13 +33098,12 @@ const UpdateProduct = props => {
 
   const handleUpdated = e => {
     e.preventDefault();
-    const options = {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-    };
-    fetch("http://localhost:5000/api/product/update/" + id, options, {
+    fetch("http://localhost:5000/api/product/update/" + id, {
       method: "PUT",
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("token"),
+        "Content-type": "application/json;charset=UTF-8"
+      },
       body: JSON.stringify({
         price: price,
         alcoholPercentage: alcoholPercentage,
@@ -33141,10 +33111,7 @@ const UpdateProduct = props => {
         color: color,
         type: type,
         companyName: companyName
-      }),
-      headers: {
-        "Content-type": "application/json;charset=UTF-8"
-      }
+      })
     }).then(resp => resp.json()).then(data => {
       (0, _router.navigate)('/');
     }).catch(err => console.log(err));
@@ -33288,24 +33255,19 @@ const UpdateCompany = props => {
 
   const handleUpdated = e => {
     e.preventDefault();
-    const options = {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-    };
-    console.log("BBBBBB ", props._id);
     fetch("http://localhost:5000/api/company/update/" + id, {
       method: "PUT",
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("token"),
+        "Content-type": "application/json;charset=UTF-8"
+      },
       body: JSON.stringify({
         name: name,
         establishmentYear: establishmentYear,
         country: country,
         description: description,
         logo: logo
-      }),
-      headers: {
-        "Content-type": "application/json;charset=UTF-8"
-      }
+      })
     }).then(resp => resp.json()).then(data => {
       (0, _router.navigate)('/');
     }).catch(err => console.log(err));
@@ -33644,7 +33606,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49591" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60502" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

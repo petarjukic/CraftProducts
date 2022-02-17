@@ -33,23 +33,20 @@ const ProductDetails = (props) => {
     }
 
     function deleteProduct(productName) {
-        const options = {headers:{
-            Authorization: "Bearer " + localStorage.getItem("token")
-        }};
-        const config = {
+        fetch("http://localhost:5000/api/product/" + productName, {
             method: "DELETE",
             headers: {
-            "Content-Type": "application/json" 
+                "Authorization": "Bearer " + localStorage.getItem("token"),
+                "Content-type": "application/json;charset=UTF-8"
             },
             body: JSON.stringify({productName})
-        }
-        fetch("http://localhost:5000/api/product/" + productName, options, config)
+        })
         .then(response => response.json())
         .then(response => {
             if (response.error) {
                 alert(response.error);
               } else {
-                alert(`${response} DELETED!`);
+                alert("DATA DELETED!");
                 navigate("/");
               }  
         });

@@ -30,17 +30,6 @@ const CompanyDetails = (props) => {
     }, []);
 
     function deleteCompany(name) {
-        const options = {headers:{
-            Authorization: "Bearer " + localStorage.getItem("token")
-        }};
-        const config = {
-            method: "DELETE",
-            headers: {
-            "Content-Type": "application/json" 
-            },
-            body: JSON.stringify({name})
-        }
-
        fetch("http://localhost:5000/api/checkProduct/" + name)
         .then(response => response.json())
         .then(product => {
@@ -49,7 +38,13 @@ const CompanyDetails = (props) => {
             }
             else {
                 if(product.length == 0) {
-                    fetch("http://localhost:5000/api/company/" + name, config)
+                    fetch("http://localhost:5000/api/company/" + name, {
+                        method: "DELETE",
+                        headers: {
+                            "Authorization": "Bearer " + localStorage.getItem("token"),
+                            "Content-type": "application/json;charset=UTF-8"},
+                        body: JSON.stringify({name})
+                    })
                     .then(response => response.json())
                     .then(response => {
                         if (response.error) {

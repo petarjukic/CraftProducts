@@ -4,7 +4,7 @@ import { UserContext } from "../UserContext";
 
 
 const CreateProduct = () => {
-    const [price, setPrice] = useState(""); //CHECK FOR NUMBER
+    const [price, setPrice] = useState("");
     const [productName, setProductName] = useState("");
     const [type, setType] = useState("");
     const [color, setColor] = useState("");
@@ -39,13 +39,13 @@ const CreateProduct = () => {
     
     const handleAdd = (e) => {
         e.preventDefault();
-
-        const options = {headers:{
-            Authorization: "Bearer " + localStorage.getItem("token")
-        }};
         
-        fetch("http://localhost:5000/api/product", options, {
+        fetch("http://localhost:5000/api/product", {
             method: "POST",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token"),
+                "Content-type": "application/json;charset=UTF-8"
+            },
             body: JSON.stringify({
                 price: price,
                 productName: productName,
@@ -54,7 +54,6 @@ const CreateProduct = () => {
                 alcoholPercentage: alcoholPercentage,
                 companyName: companyName
             }),
-            headers: {"Content-type": "application/json;charset=UTF-8"}
         })
         .then((resp) => resp.json())
         .then((data) => {

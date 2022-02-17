@@ -17,9 +17,7 @@ const Products = () => {
 
     return(
         <div className="search-params">
-            {window.location.pathname != "/register" ? <h2>To window.location.reload()</h2> : <h2>OVO</h2>}
             <div>
-                <h2>{user} USER</h2>
                 { !user ?
                    <div>
                         <button onClick={() => navigate('/login')}>Login</button>

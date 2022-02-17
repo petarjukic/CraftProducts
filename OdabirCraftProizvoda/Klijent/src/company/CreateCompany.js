@@ -11,14 +11,6 @@ const CreateCompany = () => {
     const [logo, setLogo] = useState("");
     const {user, setUser} = useContext(UserContext);
 
-    useEffect(() => {
-        const options = {headers:{
-            Authorization: "Bearer " + localStorage.getItem("token")
-        }};
-        const bearerToken = options.headers.Authorization
-        const token = bearerToken ? bearerToken.split('Bearer ')[1] : undefined;
-        console.log("AAAAAAAAAA ", token);
-    }, []);
 
     function onChangeDescription(e) {
         setDescription(e.target.value);
@@ -42,15 +34,16 @@ const CreateCompany = () => {
     
     const handleAdd = (e) => {
         e.preventDefault();
-        
+
         const options = {headers:{
             Authorization: "Bearer " + localStorage.getItem("token")
         }};
-        console.log("TOKEN KD ADD , ", options);
-        //const bearerToken = options.headers
-        //const token = bearerToken ? bearerToken.split('Bearer ')[1] : undefined;
-        fetch("http://localhost:5000/api/company", options, {
+        
+        fetch("http://localhost:5000/api/company", {
             method: "POST",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token"),
+                "Content-type": "application/json;charset=UTF-8"},
             body: JSON.stringify({
                 name: name,
                 establishmentYear: establishmentYear,
@@ -58,7 +51,7 @@ const CreateCompany = () => {
                 description: description,
                 logo: logo
             }),
-            headers: {"Content-type": "application/json;charset=UTF-8"}
+            
         })
         .then((resp) => resp.json())
         .then((data) => {
