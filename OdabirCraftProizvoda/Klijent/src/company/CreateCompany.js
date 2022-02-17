@@ -11,14 +11,14 @@ const CreateCompany = () => {
     const [logo, setLogo] = useState("");
     const {user, setUser} = useContext(UserContext);
 
-    // useEffect(() => {
-    //     const options = {headers:{
-    //         Authorization: "Bearer " + localStorage.getItem("token")
-    //     }};
-    //     const bearerToken = options.headers.Authorization
-    //     const token = bearerToken ? bearerToken.split('Bearer ')[1] : undefined;
-    //     console.log("AAAAAAAAAA ", token);
-    // }, []);
+    useEffect(() => {
+        const options = {headers:{
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }};
+        const bearerToken = options.headers.Authorization
+        const token = bearerToken ? bearerToken.split('Bearer ')[1] : undefined;
+        console.log("AAAAAAAAAA ", token);
+    }, []);
 
     function onChangeDescription(e) {
         setDescription(e.target.value);
@@ -46,6 +46,7 @@ const CreateCompany = () => {
         const options = {headers:{
             Authorization: "Bearer " + localStorage.getItem("token")
         }};
+        console.log("TOKEN KD ADD , ", options);
         //const bearerToken = options.headers
         //const token = bearerToken ? bearerToken.split('Bearer ')[1] : undefined;
         fetch("http://localhost:5000/api/company", options, {

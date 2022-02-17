@@ -32415,6 +32415,8 @@ const SearchParams = () => {
   }, user ? /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => (0, _router.navigate)('/logout')
   }, "Logout") : /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/login')
+  }, "Login"), /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => (0, _router.navigate)('/register')
   }, "Register")), isAdmin ? /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => (0, _router.navigate)('/createProduct')
@@ -32485,8 +32487,17 @@ const Register = () => {
   const [name, setName] = (0, _react.useState)("");
   const [password, setPassword] = (0, _react.useState)("");
   const [password2, setPassword2] = (0, _react.useState)("");
+  const [flag, setFlag] = (0, _react.useState)(false);
   (0, _react.useEffect)(() => {
-    console.log(window.location.pathname);
+    console.log(window.location.pathname); //setFlag(true);
+
+    if (window.location.pathname != "/register") {
+      console.log("NIJEEE");
+      window.location.reload();
+    } else {
+      console.log("JEEE");
+    } //window.location.reload();
+
   }, []);
 
   function onChangeName(e) {
@@ -32509,7 +32520,7 @@ const Register = () => {
     e.preventDefault();
 
     if (password !== password2) {
-      console.log("Passwords do not match");
+      alert("Passwords do not match");
       return;
     }
 
@@ -32601,8 +32612,8 @@ const Products = () => {
   }, []);
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "search-params"
-  }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, user, " USER"), !user ? /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
-    onClick: () => (0, _router.navigate)('/')
+  }, window.location.pathname != "/register" ? /*#__PURE__*/_react.default.createElement("h2", null, "To window.location.reload()") : /*#__PURE__*/_react.default.createElement("h2", null, "OVO"), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, user, " USER"), !user ? /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/login')
   }, "Login"), /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => (0, _router.navigate)('/register')
   }, "Register")) : /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
@@ -32780,14 +32791,17 @@ const CreateCompany = () => {
   const {
     user,
     setUser
-  } = (0, _react.useContext)(_UserContext.UserContext); // useEffect(() => {
-  //     const options = {headers:{
-  //         Authorization: "Bearer " + localStorage.getItem("token")
-  //     }};
-  //     const bearerToken = options.headers.Authorization
-  //     const token = bearerToken ? bearerToken.split('Bearer ')[1] : undefined;
-  //     console.log("AAAAAAAAAA ", token);
-  // }, []);
+  } = (0, _react.useContext)(_UserContext.UserContext);
+  (0, _react.useEffect)(() => {
+    const options = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    };
+    const bearerToken = options.headers.Authorization;
+    const token = bearerToken ? bearerToken.split('Bearer ')[1] : undefined;
+    console.log("AAAAAAAAAA ", token);
+  }, []);
 
   function onChangeDescription(e) {
     setDescription(e.target.value);
@@ -32815,7 +32829,8 @@ const CreateCompany = () => {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
-    }; //const bearerToken = options.headers
+    };
+    console.log("TOKEN KD ADD , ", options); //const bearerToken = options.headers
     //const token = bearerToken ? bearerToken.split('Bearer ')[1] : undefined;
 
     fetch("http://localhost:5000/api/company", options, {
@@ -33361,31 +33376,130 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 const CompanyProducts = props => {
   const [products, setProducts] = (0, _react.useState)([]);
+  const [isAdmin, setIsAdmin] = (0, _react.useState)(false);
   const {
     user,
     setUser
   } = (0, _react.useContext)(_UserContext.UserContext);
   (0, _react.useEffect)(() => {
     fetch("http://localhost:5000/api/company-products/" + props.companyName).then(response => response.json()).then(prod => {
+      check();
       setProducts(prod);
     });
   }, []);
+
+  function check() {
+    if (user) {
+      fetch("http://localhost:5000/api/check/" + user).then(response => response.json()).then(email => {
+        email.map(em => {
+          console.log(em.role);
+
+          if (em.role == "admin") {
+            setIsAdmin(true);
+          }
+        });
+      });
+    }
+  }
+
   return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h2", null, "Products for ", props.companyName), /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Product name"), /*#__PURE__*/_react.default.createElement("th", null, "Color"), /*#__PURE__*/_react.default.createElement("th", null, "Type"), /*#__PURE__*/_react.default.createElement("th", null, "Company name"), /*#__PURE__*/_react.default.createElement("th", null, "Price"), /*#__PURE__*/_react.default.createElement("th", null, "Alcohol Percentage"), /*#__PURE__*/_react.default.createElement("th", null, "Actions"))), /*#__PURE__*/_react.default.createElement("tbody", null, products && products.map(p => /*#__PURE__*/_react.default.createElement("tr", {
     key: p.productName
   }, /*#__PURE__*/_react.default.createElement("td", {
     className: "name"
-  }, p.productName), /*#__PURE__*/_react.default.createElement("td", null, p.color), /*#__PURE__*/_react.default.createElement("td", null, p.type), /*#__PURE__*/_react.default.createElement("td", null, p.companyName), /*#__PURE__*/_react.default.createElement("td", null, "$", p.price), /*#__PURE__*/_react.default.createElement("td", null, p.alcoholPercentage), /*#__PURE__*/_react.default.createElement("td", null, /*#__PURE__*/_react.default.createElement("button", {
+  }, p.productName), /*#__PURE__*/_react.default.createElement("td", null, p.color), /*#__PURE__*/_react.default.createElement("td", null, p.type), /*#__PURE__*/_react.default.createElement("td", null, p.companyName), /*#__PURE__*/_react.default.createElement("td", null, "$", p.price), /*#__PURE__*/_react.default.createElement("td", null, p.alcoholPercentage), /*#__PURE__*/_react.default.createElement("td", null, isAdmin ? /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => deleteProduct(p.productName)
   }, "Delete"), /*#__PURE__*/_react.default.createElement(_router.Link, {
     to: "/product/update/" + p.productName
-  }, /*#__PURE__*/_react.default.createElement("button", null, "Update"))))))), /*#__PURE__*/_react.default.createElement("button", {
+  }, /*#__PURE__*/_react.default.createElement("button", null, "Update"))) : /*#__PURE__*/_react.default.createElement("div", null)))))), /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => (0, _router.navigate)('/')
   }, "Home"));
 };
 
 var _default = CompanyProducts;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js","../UserContext":"UserContext.js"}],"App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js","../UserContext":"UserContext.js"}],"Login.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.Login = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _router = require("@reach/router");
+
+var _UserContext = require("./UserContext");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const Login = () => {
+  const [email, setEmail] = (0, _react.useState)("");
+  const [password, setPassword] = (0, _react.useState)("");
+  const {
+    user,
+    setUser
+  } = (0, _react.useContext)(_UserContext.UserContext);
+
+  function onChangeEmail(e) {
+    setEmail(e.target.value);
+  }
+
+  function onChangePassword(e) {
+    setPassword(e.target.value);
+  }
+
+  function handleLogin(e) {
+    e.preventDefault();
+    fetch("http://localhost:5000/api/login", {
+      method: "POST",
+      body: JSON.stringify({
+        email: email,
+        password: password
+      }),
+      headers: {
+        "Content-type": "application/json;charset=UTF-8"
+      }
+    }).then(resp => resp.json()).then(data => {
+      if (data.accessToken) {
+        localStorage.setItem("token", data.accessToken);
+        setUser(email);
+        (0, _router.navigate)('/');
+      } else {
+        console.log("Authentication error");
+      }
+    }).catch(err => console.log(err));
+  }
+
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("form", {
+    onSubmit: e => {
+      handleLogin(e);
+    }
+  }, /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "email"
+  }, "Email"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: email,
+    onChange: onChangeEmail,
+    onBlur: onChangeEmail
+  }), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "password"
+  }, "Password"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "password",
+    value: password,
+    onChange: onChangePassword,
+    onBlur: onChangePassword
+  }), /*#__PURE__*/_react.default.createElement("button", {
+    type: "submit"
+  }, "Login")));
+};
+
+exports.Login = Login;
+var _default = Login;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js","./UserContext":"UserContext.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireWildcard(require("react"));
@@ -33418,6 +33532,8 @@ var _CompanyProducts = _interopRequireDefault(require("./product/CompanyProducts
 
 var _UserContext = require("./UserContext");
 
+var _Login = _interopRequireDefault(require("./Login"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -33428,7 +33544,14 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 const App = () => {
   const [user, setUser] = (0, _react.useState)("");
   const [email, setEmail] = (0, _react.useState)("");
-  const [password, setPassword] = (0, _react.useState)("");
+  const [password, setPassword] = (0, _react.useState)(""); // useEffect(() => {
+  //     if(window.location.pathname != "/register") {
+  //         console.log("NIJEEE")
+  //     }
+  //     else {
+  //         console.log("JEEE")
+  //     }
+  // }, [])
 
   function onChangeEmail(e) {
     setEmail(e.target.value);
@@ -33460,33 +33583,15 @@ const App = () => {
     }).catch(err => console.log(err));
   }
 
-  return /*#__PURE__*/_react.default.createElement("div", null, window.location.pathname != "/register" ? /*#__PURE__*/_react.default.createElement("h2", null, "To") : /*#__PURE__*/_react.default.createElement("h2", null, "OVO"), !user ? /*#__PURE__*/_react.default.createElement("form", {
-    onSubmit: e => {
-      handleLogin(e);
-    }
-  }, /*#__PURE__*/_react.default.createElement("label", {
-    htmlFor: "email"
-  }, "Email"), /*#__PURE__*/_react.default.createElement("input", {
-    type: "text",
-    value: email,
-    onChange: onChangeEmail,
-    onBlur: onChangeEmail
-  }), /*#__PURE__*/_react.default.createElement("label", {
-    htmlFor: "password"
-  }, "Password"), /*#__PURE__*/_react.default.createElement("input", {
-    type: "password",
-    value: password,
-    onChange: onChangePassword,
-    onBlur: onChangePassword
-  }), /*#__PURE__*/_react.default.createElement("button", {
-    type: "submit"
-  }, "Login")) : /*#__PURE__*/_react.default.createElement("h1", null, "AAAA"), /*#__PURE__*/_react.default.createElement(_UserContext.UserContext.Provider, {
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_UserContext.UserContext.Provider, {
     value: {
       user,
       setUser
     }
   }, /*#__PURE__*/_react.default.createElement(_router.Router, null, /*#__PURE__*/_react.default.createElement(_SearchParams.default, {
     path: "/"
+  }), /*#__PURE__*/_react.default.createElement(_Login.default, {
+    path: "/login"
   }), /*#__PURE__*/_react.default.createElement(_Products.default, {
     path: "/products"
   }), /*#__PURE__*/_react.default.createElement(_CreateProduct.default, {
@@ -33511,7 +33616,7 @@ const App = () => {
 };
 
 (0, _reactDom.render)( /*#__PURE__*/_react.default.createElement(App, null), document.getElementById("root"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./SearchParams":"SearchParams.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Logout":"Logout.js","./Register":"Register.js","./product/Products":"product/Products.js","./product/CreateProduct":"product/CreateProduct.js","./company/CreateCompany":"company/CreateCompany.js","./product/ProductDetails":"product/ProductDetails.js","./company/CompanyDetails":"company/CompanyDetails.js","./product/UpdateProduct":"product/UpdateProduct.js","./company/UpdateCompany":"company/UpdateCompany.js","./product/CompanyProducts":"product/CompanyProducts.js","./UserContext":"UserContext.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./SearchParams":"SearchParams.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Logout":"Logout.js","./Register":"Register.js","./product/Products":"product/Products.js","./product/CreateProduct":"product/CreateProduct.js","./company/CreateCompany":"company/CreateCompany.js","./product/ProductDetails":"product/ProductDetails.js","./company/CompanyDetails":"company/CompanyDetails.js","./product/UpdateProduct":"product/UpdateProduct.js","./company/UpdateCompany":"company/UpdateCompany.js","./product/CompanyProducts":"product/CompanyProducts.js","./UserContext":"UserContext.js","./Login":"Login.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -33539,7 +33644,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63569" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49591" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

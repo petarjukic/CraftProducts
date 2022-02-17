@@ -5,14 +5,31 @@ import { UserContext } from "../UserContext";
 
 const CompanyProducts = (props) => {
     const [products, setProducts] = useState([]);
+    const [isAdmin, setIsAdmin] = useState(false);
     const {user, setUser} = useContext(UserContext);
 
     useEffect(() => {
         fetch("http://localhost:5000/api/company-products/" + props.companyName)
         .then((response) => response.json())
         .then((prod) => {
+            check()
             setProducts(prod)});
     }, []);
+
+    function check() {
+        if(user) {
+            fetch("http://localhost:5000/api/check/" + user)
+            .then((response) => response.json())
+            .then((email) => {
+                email.map((em) => {
+                    console.log(em.role)
+                    if(em.role == "admin") {
+                        setIsAdmin(true);
+                    }
+                })
+            })
+        }
+    }
 
     return(
         <div>
@@ -39,10 +56,17 @@ const CompanyProducts = (props) => {
                             <td>${p.price}</td>
                             <td>{p.alcoholPercentage}</td>
                             <td>
-                                <button onClick={() => deleteProduct(p.productName)}>Delete</button>
-                                <Link to={"/product/update/" + p.productName}>
-                                    <button>Update</button>
-                                </Link>
+                                {isAdmin ? 
+                                    <div>
+                                        <button onClick={() => deleteProduct(p.productName)}>Delete</button>
+                                        <Link to={"/product/update/" + p.productName}>
+                                            <button>Update</button>
+                                        </Link>
+                                    </div>
+                                    :
+                                    <div>
+                                    </div>
+                                }
                             </td>
                         </tr>
                     )}

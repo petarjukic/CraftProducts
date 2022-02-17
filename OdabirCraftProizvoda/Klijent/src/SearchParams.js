@@ -40,7 +40,8 @@ const SearchParams = () => {
         <div className="search-params">
             {user ? 
                 <button onClick={() => navigate('/logout')}>Logout</button> : 
-                <div> 
+                <div>
+                    <button onClick={() => navigate('/login')}>Login</button>
                     <button onClick={() => navigate('/register')}>Register</button>
                 </div>
             }

@@ -8,8 +8,19 @@ export const Register = () =>{
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
 
+    const [flag, setFlag] = useState(false)
+
     useEffect(() => {
         console.log(window.location.pathname);
+        //setFlag(true);
+        if(window.location.pathname != "/register") {
+            console.log("NIJEEE")
+            window.location.reload();
+        }
+        else {
+            console.log("JEEE")
+        }
+        //window.location.reload();
     }, [])
 
     function onChangeName(e) {
@@ -32,7 +43,7 @@ export const Register = () =>{
         e.preventDefault();
     
         if (password !== password2) {
-            console.log("Passwords do not match");
+           alert("Passwords do not match");
             return;
         }
 
@@ -45,10 +56,10 @@ export const Register = () =>{
             }),
             headers: {"Content-type": "application/json;charset=UTF-8"}
         })
-        .then((resp)=>resp.json())
-        .then((data)=>{
-                console.log("User Registered!");
-                navigate('/login'); 
+        .then((resp) => resp.json())
+        .then((data) => {
+            console.log("User Registered!");
+            navigate('/login'); 
         })
         .catch((err)=>console.log(err));
     }

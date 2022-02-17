@@ -17,11 +17,12 @@ const Products = () => {
 
     return(
         <div className="search-params">
+            {window.location.pathname != "/register" ? <h2>To window.location.reload()</h2> : <h2>OVO</h2>}
             <div>
                 <h2>{user} USER</h2>
                 { !user ?
                    <div>
-                        <button onClick={() => navigate('/')}>Login</button>
+                        <button onClick={() => navigate('/login')}>Login</button>
                         <button onClick={() => navigate('/register')}>Register</button>
                     </div> :
                     <div>
@@ -43,7 +44,7 @@ const Products = () => {
                     {products && products.map(p => 
                         <tr key={p.productName}>
                             <Link to={"/product/details/" + p.productName}>
-                            <td className="name">{p.productName}</td>
+                                <td className="name">{p.productName}</td>
                             </Link>
                             <td>{p.color}</td>
                             <td>{p.type}</td>

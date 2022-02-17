@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {render} from "react-dom";
 import SearchParams from "./SearchParams";
 import {Router, navigate} from "@reach/router";
@@ -13,6 +13,7 @@ import UpdateProduct from "./product/UpdateProduct";
 import UpdateCompany from "./company/UpdateCompany";
 import CompanyProducts from "./product/CompanyProducts";
 import { UserContext } from "./UserContext";
+import Login from "./Login";
 
 
 //npm run dev
@@ -21,6 +22,15 @@ const App = () => {
     const [user, setUser] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    // useEffect(() => {
+    //     if(window.location.pathname != "/register") {
+    //         console.log("NIJEEE")
+    //     }
+    //     else {
+    //         console.log("JEEE")
+    //     }
+    // }, [])
 
     function onChangeEmail(e) {
         setEmail(e.target.value);
@@ -56,33 +66,10 @@ const App = () => {
 
     return(
         <div>
-
-            {window.location.pathname != "/register" ? <h2>To</h2> : <h2>OVO</h2>}
-
-            {!user ? 
-            <form onSubmit={(e) => {handleLogin(e);}}>
-            <label htmlFor="email">Email</label>
-            <input
-                type="text"
-                value={email}
-                onChange={onChangeEmail}
-                onBlur={onChangeEmail}
-            ></input>
-
-            <label htmlFor="password">Password</label>
-            <input
-                type="password"
-                value={password}
-                onChange={onChangePassword}
-                onBlur={onChangePassword}
-            ></input>
-
-            <button type="submit">Login</button>
-        </form>
-        : <h1>AAAA</h1> }
             <UserContext.Provider value={{user, setUser}}>
                 <Router>
                     <SearchParams path="/" />
+                    <Login path="/login" />
                     <Products path="/products" />
                     <CreateProduct path="/createProduct" />
                     <CreateCompany path="/createCompany" />
