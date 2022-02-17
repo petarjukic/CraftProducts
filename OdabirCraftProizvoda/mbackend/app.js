@@ -178,16 +178,23 @@ craftProducts.get('/products/:productName', (req, res) => {
 
 //////////// CREATE COMPANY & PRODUCT /////////////////
 
+// craftProducts.post('/company', verifyJwt1, (req, res) => {
+
+//     const company = new Company(req.body);
+//     company.save();
+//     return res.status(210).json(company);
+// })
+
 craftProducts.route('/company').post(verifyJwt1, (req, res) => {
     const company = new Company(req.body);
     company.save();
-    return res.status(210).json(company);
+    return res.status(201).json(company);
 });
     
 craftProducts.route('/product').post(verifyJwt1, (req, res) => {
     const product = new Product(req.body);
     product.save();
-    return res.status(210).json(product);
+    return res.status(201).json(product);
 });
 
 
