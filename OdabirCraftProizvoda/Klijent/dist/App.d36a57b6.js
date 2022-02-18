@@ -32406,7 +32406,7 @@ const SearchParams = () => {
 
     fetch("http://localhost:5000/api/company", options).then(response => response.json()).then(companies => {
       console.log("OVO JE EMAIL ", user);
-      companies = companies.sort((a, b) => a.name > b.name ? 1 : -1);
+      companies = companies.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1);
       setCompanies(companies);
     });
   }, []);
@@ -32460,7 +32460,7 @@ const Logout = () => {
   } = (0, _react.useContext)(_UserContext.UserContext);
   localStorage.removeItem("token");
   setUser("");
-  (0, _router.navigate)("/");
+  (0, _router.navigate)('/');
   return /*#__PURE__*/_react.default.createElement("div", null);
 };
 
@@ -32604,7 +32604,7 @@ const Products = () => {
   } = (0, _react.useContext)(_UserContext.UserContext);
   (0, _react.useEffect)(() => {
     fetch("http://localhost:5000/api/products").then(response => response.json()).then(products => {
-      products = products.sort((a, b) => a.productName > b.productName ? 1 : -1);
+      products = products.sort((a, b) => a.productName.toLowerCase() > b.productName.toLowerCase() ? 1 : -1);
       setProducts(products);
     });
   }, []);
@@ -32938,7 +32938,7 @@ const ProductDetails = props => {
         alert(response.error);
       } else {
         alert("DATA DELETED!");
-        navigate("/");
+        (0, _router.navigate)("/");
       }
     });
   }
@@ -33085,7 +33085,16 @@ const UpdateProduct = props => {
     setUser
   } = (0, _react.useContext)(_UserContext.UserContext);
   (0, _react.useEffect)(() => {
+    const options = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    };
     fetch("http://localhost:5000/api/products/" + props.productName).then(response => response.json()).then(prod => {
+      // fetch("http://localhost:5000/api/checkRole", options)
+      // .then((response) => response.json())
+      // .then(() => console.log("Provjera"))
+      // .catch(() => navigate("/"))
       setId(prod[0]._id);
       setPrice(prod[0].price);
       setAlcoholPercentage(prod[0].alcoholPercentage);
@@ -33098,6 +33107,7 @@ const UpdateProduct = props => {
 
   const handleUpdated = e => {
     e.preventDefault();
+    console.log(localStorage.getItem("token"));
     fetch("http://localhost:5000/api/product/update/" + id, {
       method: "PUT",
       headers: {
@@ -33114,7 +33124,10 @@ const UpdateProduct = props => {
       })
     }).then(resp => resp.json()).then(data => {
       (0, _router.navigate)('/');
-    }).catch(err => console.log(err));
+    }).catch(err => {
+      console.log(err);
+      (0, _router.navigate)('/');
+    });
   };
 
   function onChangeProductName(e) {
@@ -33606,7 +33619,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60502" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58372" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

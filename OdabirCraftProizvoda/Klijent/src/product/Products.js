@@ -11,7 +11,7 @@ const Products = () => {
         fetch("http://localhost:5000/api/products")
         .then((response) => response.json())
         .then((products) => { 
-            products = products.sort((a, b) =>(a.productName > b.productName) ? 1 : -1);
+            products = products.sort((a, b) =>(a.productName.toLowerCase() > b.productName.toLowerCase()) ? 1 : -1);
             setProducts(products) });
     },[]);
 

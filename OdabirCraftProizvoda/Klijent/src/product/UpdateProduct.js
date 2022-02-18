@@ -16,9 +16,20 @@ const UpdateProduct = (props) => {
 
     
     useEffect(() => {
+        const options = {headers:{
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }};
+
+        
+
         fetch("http://localhost:5000/api/products/" + props.productName)
         .then((response) => response.json())
         .then((prod) => {
+            // fetch("http://localhost:5000/api/checkRole", options)
+            // .then((response) => response.json())
+            // .then(() => console.log("Provjera"))
+            // .catch(() => navigate("/"))
+
             setId(prod[0]._id)
             setPrice(prod[0].price)
             setAlcoholPercentage(prod[0].alcoholPercentage)
@@ -30,6 +41,7 @@ const UpdateProduct = (props) => {
 
     const handleUpdated = (e) => {
         e.preventDefault();
+        console.log(localStorage.getItem("token"))
         
         fetch("http://localhost:5000/api/product/update/" + id, {
             method: "PUT",
@@ -50,7 +62,10 @@ const UpdateProduct = (props) => {
         .then((data) => {
             navigate('/'); 
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+            console.log(err)
+            navigate('/')
+        });
     }
 
     function onChangeProductName(e) {

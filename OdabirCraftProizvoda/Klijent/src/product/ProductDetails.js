@@ -1,4 +1,4 @@
-import { Link, useParams } from "@reach/router";
+import { Link, navigate, useParams } from "@reach/router";
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserContext";
 

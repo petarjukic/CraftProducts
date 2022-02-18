@@ -31,7 +31,7 @@ const SearchParams = () => {
         .then((response) => response.json())
         .then((companies) => {
             console.log("OVO JE EMAIL ", user);
-            companies = companies.sort((a, b) =>(a.name > b.name) ? 1 : -1);
+            companies = companies.sort((a, b) =>(a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
             setCompanies(companies)
         });
     },[]);
