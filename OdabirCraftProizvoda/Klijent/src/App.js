@@ -15,6 +15,17 @@ import CompanyProducts from "./product/CompanyProducts";
 import { UserContext } from "./UserContext";
 import Login from "./Login";
 
+import NajjacePivo from "./Najjace";
+import NajbrojnijaTvrtka from "./NajbrojnijaTvrtka";
+import PetNajjaciPiva from "./PetNajjaciPiva";
+import PivePoBoji from "./PivePoBoji";
+import NajstarijaTvrtka from "./NajstarijaTvrtka";
+import ProsjecnaJakost from "./ProsjecnaJakostTvrtka";
+import TvrtkaNajjacaPiva from "./TvrtkaNajjacaPiva";
+import JednaPivaJednaTvrtka from "./JednaPiJednaTv";
+import Najskuplje from "./Najskuplje";
+import NajbrojnijeTvrtke from "./NajbrojnijeTvrtke";
+
 
 //npm run dev
 
@@ -22,15 +33,6 @@ const App = () => {
     const [user, setUser] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
-    // useEffect(() => {
-    //     if(window.location.pathname != "/register") {
-    //         console.log("NIJEEE")
-    //     }
-    //     else {
-    //         console.log("JEEE")
-    //     }
-    // }, [])
 
     function onChangeEmail(e) {
         setEmail(e.target.value);
@@ -80,6 +82,17 @@ const App = () => {
                     <CompanyProducts path={"/products/:companyName"} />
                     <Register path="/register" />
                     <Logout path="/logout" />
+
+                    <NajjacePivo path="/najjacePivo" />
+                    <NajbrojnijaTvrtka path="/najbrojnija" />
+                    <PetNajjaciPiva path="/pet" />
+                    <PivePoBoji path={"/boja/:color"} />
+                    <NajstarijaTvrtka path="/najstarija" />
+                    <ProsjecnaJakost path="/prosjek" />
+                    <TvrtkaNajjacaPiva path="/odSvake" />
+                    <JednaPivaJednaTvrtka path="/poJedna" />
+                    <Najskuplje path="/najskuplje" />
+                    <NajbrojnijeTvrtke path="/najbrojnije" />
                 </Router>
             </UserContext.Provider>
         </div>

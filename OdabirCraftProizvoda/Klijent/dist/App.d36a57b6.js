@@ -32385,6 +32385,28 @@ const SearchParams = () => {
     setUser
   } = (0, _react.useContext)(_UserContext.UserContext);
   const [isAdmin, setIsAdmin] = (0, _react.useState)(false);
+  const [boja, setBoja] = (0, _react.useState)("");
+  const [nesto, setNesto] = (0, _react.useState)(""); // const [type, setType] = useState("");
+  // const [types, setTypes] = useState([]);
+  // const [subTypes, setSubtypes] = useState([]);
+  // const [result, setResult] = useState("");
+  // async function getChocolateTypes() {
+  //     const coholateTypes = await fetch(
+  //         "https://demo1728211.mockable.io/types"
+  //     );
+  //     const jsonChocolate = await coholateTypes.json();
+  //     setTypes(jsonChocolate.types);
+  // }
+  // function getChocolateByType() {
+  //     const response = fetch(
+  //         `https://demo9221364.mockable.io/${type}/chocolate`
+  //     ).then((value) => value.json().then((v) => setSubtypes(v[type])));
+  // }
+  // useEffect(() => {
+  //     getChocolateTypes();
+  //     getChocolateByType();
+  // }, [type])
+
   (0, _react.useEffect)(() => {
     const options = {
       headers: {
@@ -32408,8 +32430,20 @@ const SearchParams = () => {
       console.log("OVO JE EMAIL ", user);
       companies = companies.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1);
       setCompanies(companies);
-    });
-  }, []);
+    }); //console.log(" AAAAAA ", nesto);
+  }, []); //[nesto]
+
+  function handleBoja(e) {
+    e.preventDefault();
+  }
+
+  function onChangeBoja(e) {
+    setBoja(e.target.value);
+  } // let a = ["1", "1", "2", "3", "3", "1"];
+  // let unique = a.filter((item, i, ar) => ar.indexOf(item) === i);
+  // console.log(unique);
+
+
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "search-params"
   }, user ? /*#__PURE__*/_react.default.createElement("button", {
@@ -32424,7 +32458,47 @@ const SearchParams = () => {
     onClick: () => (0, _router.navigate)('/createCompany')
   }, "Insert Company")) : /*#__PURE__*/_react.default.createElement("div", null), /*#__PURE__*/_react.default.createElement("button", {
     onClick: () => (0, _router.navigate)('/products')
-  }, "Products"), /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Company name"), /*#__PURE__*/_react.default.createElement("th", null, "Country"), /*#__PURE__*/_react.default.createElement("th", null, "Establishment year"))), /*#__PURE__*/_react.default.createElement("tbody", null, companies && companies.map(comp => /*#__PURE__*/_react.default.createElement("tr", {
+  }, "Products"), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/najjacePivo')
+  }, "Najjace Pivo"), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/najbrojnija')
+  }, "Najbrojnija"), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/pet')
+  }, "pet najjaci"), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/najstarija')
+  }, "Najstarija"), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/prosjek')
+  }, "Prosjecna jakost"), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/odSvake')
+  }, "Tvrtka Najjaca"), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/poJedna')
+  }, "Jedna piva 1 Tvrtka"), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/najskuplje')
+  }, "5 Najskuplje"), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/najbrojnije')
+  }, "5 Najbrojnije"), /*#__PURE__*/_react.default.createElement("form", {
+    onSubmit: e => {
+      handleBoja(e);
+    }
+  }, /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: "boja"
+  }, "Boja"), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    value: boja,
+    onChange: onChangeBoja,
+    onBlur: onChangeBoja
+  }), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: () => (0, _router.navigate)('/boja/' + boja)
+  }, "Bojaa")), /*#__PURE__*/_react.default.createElement("select", {
+    onChange: e => {
+      setNesto(e.target.value);
+    }
+  }, /*#__PURE__*/_react.default.createElement("option", {
+    value: ""
+  }, "NESTO"), companies.map(comp => /*#__PURE__*/_react.default.createElement("option", {
+    key: comp.name,
+    value: comp.name
+  }, comp.name))), /*#__PURE__*/_react.default.createElement("table", null, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "Company name"), /*#__PURE__*/_react.default.createElement("th", null, "Country"), /*#__PURE__*/_react.default.createElement("th", null, "Establishment year"))), /*#__PURE__*/_react.default.createElement("tbody", null, companies && companies.map(comp => /*#__PURE__*/_react.default.createElement("tr", {
     key: comp.name
   }, /*#__PURE__*/_react.default.createElement(_router.Link, {
     to: "/company/details/" + comp.name
@@ -32486,17 +32560,7 @@ const Register = () => {
   const [email, setEmail] = (0, _react.useState)("");
   const [name, setName] = (0, _react.useState)("");
   const [password, setPassword] = (0, _react.useState)("");
-  const [password2, setPassword2] = (0, _react.useState)(""); //    const [flag, setFlag] = useState(false)
-  // useEffect(() => {
-  //     console.log(window.location.pathname);
-  //     if(window.location.pathname != "/register") {
-  //         console.log("NIJEEE")
-  //         window.location.reload();
-  //     }
-  //     else {
-  //         console.log("JEEE")
-  //     }
-  // }, [])
+  const [password2, setPassword2] = (0, _react.useState)("");
 
   function onChangeName(e) {
     setName(e.target.value);
@@ -33474,7 +33538,388 @@ const Login = () => {
 exports.Login = Login;
 var _default = Login;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js","./UserContext":"UserContext.js"}],"App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@reach/router":"../node_modules/@reach/router/es/index.js","./UserContext":"UserContext.js"}],"Najjace.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _UserContext = require("./UserContext");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const NajjacePivo = () => {
+  const [piva, setPiva] = (0, _react.useState)([]);
+  const [products, setProducts] = (0, _react.useState)([]);
+  const {
+    user,
+    setUser
+  } = (0, _react.useContext)(_UserContext.UserContext);
+  (0, _react.useEffect)(() => {
+    fetch("http://localhost:5000/api/products").then(response => response.json()).then(products => {
+      //products = products.sort((a, b) =>(a.productName.toLowerCase() > b.productName.toLowerCase()) ? 1 : -1);
+      const aa = Math.max.apply(Math, products.map(function (o) {
+        return o.alcoholPercentage;
+      })); // setProducts(products)
+
+      console.log(aa);
+      const max = products.reduce(function (prev, current) {
+        return prev.alcoholPercentage > current.alcoholPercentage ? prev : current;
+      });
+      console.log(max);
+      setPiva(max);
+    });
+  }, []);
+  return /*#__PURE__*/_react.default.createElement("div", null, piva.productName, piva.alcoholPercentage);
+};
+
+var _default = NajjacePivo;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","./UserContext":"UserContext.js"}],"NajbrojnijaTvrtka.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const NajbrojnijaTvrtka = () => {
+  const [tvrtka, setTvrtka] = (0, _react.useState)([]);
+  (0, _react.useEffect)(() => {
+    fetch("http://localhost:5000/api/products").then(response => response.json()).then(products => {
+      const aa = products.sort((a, b) => products.filter(v => v === a).length - products.filter(v => v === b).length).pop();
+      console.log(aa);
+      setTvrtka(aa);
+    });
+  }, []);
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, tvrtka.companyName));
+};
+
+var _default = NajbrojnijaTvrtka;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"PetNajjaciPiva.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const PetNajjaciPiva = () => {
+  const [petNajjaci, setPetNajjaci] = (0, _react.useState)([]);
+  (0, _react.useEffect)(() => {
+    fetch("http://localhost:5000/api/products").then(response => response.json()).then(products => {
+      //     const aa = products.sort((a,b) =>
+      //     products.filter(v => v===a).length
+      //   - products.filter(v => v===b).length
+      //     ).pop();
+      //     console.log(aa);
+      //     setTvrtka(aa);
+      products = products.sort((a, b) => a.alcoholPercentage < b.alcoholPercentage ? 1 : -1);
+      console.log(products);
+      products.pop();
+      products.pop();
+      products.pop();
+      products.pop();
+      setPetNajjaci(products);
+    });
+  }, []);
+  return /*#__PURE__*/_react.default.createElement("div", null, petNajjaci.map(pet => /*#__PURE__*/_react.default.createElement("h1", {
+    key: pet.productName
+  }, pet.productName, "  ", pet.alcoholPercentage)));
+};
+
+var _default = PetNajjaciPiva;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"PivePoBoji.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const PivePoBoji = props => {
+  const [pive, setPive] = (0, _react.useState)([]);
+  (0, _react.useEffect)(() => {
+    console.log(props.color);
+    fetch("http://localhost:5000/api/boja/" + props.color).then(response => response.json()).then(products => {
+      setPive(products);
+      console.log(products);
+    });
+  }, []);
+  return /*#__PURE__*/_react.default.createElement("div", null, pive.length > 0 ? pive.map(p => /*#__PURE__*/_react.default.createElement("h2", null, p.productName, " ", p.color)) : /*#__PURE__*/_react.default.createElement("h1", null, "List is empty"));
+};
+
+var _default = PivePoBoji;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"NajstarijaTvrtka.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const NajstarijaTvrtka = () => {
+  const [tvrtka, setTvrtka] = (0, _react.useState)([]);
+  (0, _react.useEffect)(() => {
+    fetch("http://localhost:5000/api/company").then(response => response.json()).then(companies => {
+      const max = companies.reduce(function (prev, current) {
+        return prev.establishmentYear < current.establishmentYear ? prev : current;
+      });
+      setTvrtka(max);
+    });
+  }, []);
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, tvrtka.name, " ", tvrtka.establishmentYear));
+};
+
+var _default = NajstarijaTvrtka;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"ProsjecnaJakostTvrtka.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const ProsjecnaJakost = () => {
+  const [jakost, setJakost] = (0, _react.useState)("");
+  (0, _react.useEffect)(() => {
+    fetch("http://localhost:5000/api//company-products/" + "Stric").then(response => response.json()).then(products => {
+      let counter = 0;
+      products.map(p => counter += 1);
+      let aa = 0;
+      products.map(p => aa += p.alcoholPercentage);
+      let rez = aa / counter;
+      setJakost(rez);
+    });
+  }, []);
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, jakost));
+};
+
+var _default = ProsjecnaJakost;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"TvrtkaNajjacaPiva.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const TvrtkaNajjacaPiva = () => {
+  const [najjaca, setNajjaca] = (0, _react.useState)([]);
+  (0, _react.useEffect)(() => {
+    fetch("http://localhost:5000/api//company-products/" + "Stric").then(response => response.json()).then(products => {
+      const max = products.reduce(function (prev, current) {
+        return prev.alcoholPercentage > current.alcoholPercentage ? prev : current;
+      });
+      setNajjaca(max);
+    });
+  }, []);
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, najjaca.alcoholPercentage, " ", najjaca.productName, " "));
+};
+
+var _default = TvrtkaNajjacaPiva;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"JednaPiJednaTv.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const JednaPivaJednaTvrtka = () => {
+  const [pive, setPive] = (0, _react.useState)([]);
+  (0, _react.useEffect)(() => {
+    fetch("http://localhost:5000/api/products").then(response => response.json()).then(products => {
+      console.log(products); //let aa = products.filter((item, i, ar) => ar.indexOf(item) === i);
+
+      let key = 'companyName';
+      let uniques = [...new Map(products.map(item => [item[key], item])).values()];
+      console.log(uniques);
+      setPive(uniques);
+    });
+  }, []);
+  return /*#__PURE__*/_react.default.createElement("div", null, pive.map(p => /*#__PURE__*/_react.default.createElement("h2", {
+    key: p.productName
+  }, p.productName, " ", p.companyName, " ", /*#__PURE__*/_react.default.createElement("br", null))));
+};
+
+var _default = JednaPivaJednaTvrtka;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"Najskuplje.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const Najskuplje = () => {
+  const [najskuplje, setNajskuplje] = (0, _react.useState)([]);
+  (0, _react.useEffect)(() => {
+    fetch("http://localhost:5000/api/products").then(response => response.json()).then(products => {
+      products = products.sort((a, b) => a.price < b.price ? 1 : -1);
+      let key = 'price';
+      let uniques = [...new Map(products.map(item => [item[key], item])).values()];
+      setNajskuplje(uniques);
+    });
+  }, []);
+  return /*#__PURE__*/_react.default.createElement("div", null, najskuplje.map(n => /*#__PURE__*/_react.default.createElement("h2", {
+    key: n.price
+  }, n.productName, " ", n.price, /*#__PURE__*/_react.default.createElement("br", null))));
+};
+
+var _default = Najskuplje;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"NajbrojnijeTvrtke.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const NajbrojnijeTvrtke = () => {
+  const [najbrojnije, setNajbrojnije] = (0, _react.useState)([]);
+  let tvrtke = {};
+  let tvrtkeArr1 = [];
+  (0, _react.useEffect)(() => {
+    fetch("http://localhost:5000/api/products").then(response => response.json()).then(products => {
+      setNajbrojnije(products); //izbroji(products);
+      // products.map(prod => {
+      //     tvrtke.ime = prod.companyName;
+      //    tvrtke.brojac = 0;
+      //     products.map(prod1 => {
+      //         if(prod.companyName == prod1.companyName) {
+      //             tvrtke.brojac += 1;
+      //         }
+      //     })
+      //     console.log("AAAAAAAA ", tvrtkeArr1)
+      //     //tvrtkeArr1.push(tvrtke);
+      // })
+      // for(let i = 0; i < products.length; i++) {
+      //    console.log("BBBB ", products[i].companyName)
+      //    tvrtke.ime = products[i].companyName;
+      //    tvrtke.brojac = 0;
+      //     for(let j = 0; j < products.length; j++) {
+      //         // console.log("CCCCC ", products[j].companyName)
+      //         if(products[i].companyName === products[j].companyName) {
+      //         //    console.log("DDDDD ", products[i].companyName)
+      //             tvrtke.brojac += 1;   
+      //         }
+      //     }
+      //     console.log(tvrtke)
+      //     //setNajbrojnije(tvrtke)
+      //     //tvrtkeArr1[i] = tvrtke;
+      //     tvrtkeArr1.push(tvrtke);
+      //     console.log("TTTTTTTTTT ", tvrtkeArr1);
+      // }
+      //setNajbrojnije(tvrtkeArr1)
+      // console.log(tvrtkeArr1, " AAAAAA");
+    });
+  }, []);
+
+  function izbroji() {
+    let te = [];
+    let neki = {};
+    let br = 0; //setTvrtke(...tvrtke, {tvrtka, brojac})
+
+    najbrojnije.map(prod => {
+      tvrtke.ime = prod.companyName;
+      tvrtke.brojac = 0; // te.push(tvrtke.ime)
+
+      neki.ime = prod.companyName;
+      neki.brojac = 0;
+      prod.brojac = 0;
+      br = 0; //te.push(neki)
+
+      najbrojnije.map(prod1 => {
+        if (prod.companyName == prod1.companyName) {
+          br += 1;
+          tvrtke.brojac += 1;
+          prod.brojac += 1;
+        }
+      });
+      console.log("AAAAAAAA ", tvrtkeArr1);
+      te.push(br);
+      tvrtkeArr1.push(tvrtke);
+    });
+    console.log(najbrojnije, " Teee");
+  }
+
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
+    onClick: izbroji
+  }, "Dohvati"));
+};
+
+var _default = NajbrojnijeTvrtke;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireWildcard(require("react"));
@@ -33509,6 +33954,26 @@ var _UserContext = require("./UserContext");
 
 var _Login = _interopRequireDefault(require("./Login"));
 
+var _Najjace = _interopRequireDefault(require("./Najjace"));
+
+var _NajbrojnijaTvrtka = _interopRequireDefault(require("./NajbrojnijaTvrtka"));
+
+var _PetNajjaciPiva = _interopRequireDefault(require("./PetNajjaciPiva"));
+
+var _PivePoBoji = _interopRequireDefault(require("./PivePoBoji"));
+
+var _NajstarijaTvrtka = _interopRequireDefault(require("./NajstarijaTvrtka"));
+
+var _ProsjecnaJakostTvrtka = _interopRequireDefault(require("./ProsjecnaJakostTvrtka"));
+
+var _TvrtkaNajjacaPiva = _interopRequireDefault(require("./TvrtkaNajjacaPiva"));
+
+var _JednaPiJednaTv = _interopRequireDefault(require("./JednaPiJednaTv"));
+
+var _Najskuplje = _interopRequireDefault(require("./Najskuplje"));
+
+var _NajbrojnijeTvrtke = _interopRequireDefault(require("./NajbrojnijeTvrtke"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -33519,14 +33984,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 const App = () => {
   const [user, setUser] = (0, _react.useState)("");
   const [email, setEmail] = (0, _react.useState)("");
-  const [password, setPassword] = (0, _react.useState)(""); // useEffect(() => {
-  //     if(window.location.pathname != "/register") {
-  //         console.log("NIJEEE")
-  //     }
-  //     else {
-  //         console.log("JEEE")
-  //     }
-  // }, [])
+  const [password, setPassword] = (0, _react.useState)("");
 
   function onChangeEmail(e) {
     setEmail(e.target.value);
@@ -33587,11 +34045,31 @@ const App = () => {
     path: "/register"
   }), /*#__PURE__*/_react.default.createElement(_Logout.default, {
     path: "/logout"
+  }), /*#__PURE__*/_react.default.createElement(_Najjace.default, {
+    path: "/najjacePivo"
+  }), /*#__PURE__*/_react.default.createElement(_NajbrojnijaTvrtka.default, {
+    path: "/najbrojnija"
+  }), /*#__PURE__*/_react.default.createElement(_PetNajjaciPiva.default, {
+    path: "/pet"
+  }), /*#__PURE__*/_react.default.createElement(_PivePoBoji.default, {
+    path: "/boja/:color"
+  }), /*#__PURE__*/_react.default.createElement(_NajstarijaTvrtka.default, {
+    path: "/najstarija"
+  }), /*#__PURE__*/_react.default.createElement(_ProsjecnaJakostTvrtka.default, {
+    path: "/prosjek"
+  }), /*#__PURE__*/_react.default.createElement(_TvrtkaNajjacaPiva.default, {
+    path: "/odSvake"
+  }), /*#__PURE__*/_react.default.createElement(_JednaPiJednaTv.default, {
+    path: "/poJedna"
+  }), /*#__PURE__*/_react.default.createElement(_Najskuplje.default, {
+    path: "/najskuplje"
+  }), /*#__PURE__*/_react.default.createElement(_NajbrojnijeTvrtke.default, {
+    path: "/najbrojnije"
   }))));
 };
 
 (0, _reactDom.render)( /*#__PURE__*/_react.default.createElement(App, null), document.getElementById("root"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./SearchParams":"SearchParams.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Logout":"Logout.js","./Register":"Register.js","./product/Products":"product/Products.js","./product/CreateProduct":"product/CreateProduct.js","./company/CreateCompany":"company/CreateCompany.js","./product/ProductDetails":"product/ProductDetails.js","./company/CompanyDetails":"company/CompanyDetails.js","./product/UpdateProduct":"product/UpdateProduct.js","./company/UpdateCompany":"company/UpdateCompany.js","./product/CompanyProducts":"product/CompanyProducts.js","./UserContext":"UserContext.js","./Login":"Login.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./SearchParams":"SearchParams.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Logout":"Logout.js","./Register":"Register.js","./product/Products":"product/Products.js","./product/CreateProduct":"product/CreateProduct.js","./company/CreateCompany":"company/CreateCompany.js","./product/ProductDetails":"product/ProductDetails.js","./company/CompanyDetails":"company/CompanyDetails.js","./product/UpdateProduct":"product/UpdateProduct.js","./company/UpdateCompany":"company/UpdateCompany.js","./product/CompanyProducts":"product/CompanyProducts.js","./UserContext":"UserContext.js","./Login":"Login.js","./Najjace":"Najjace.js","./NajbrojnijaTvrtka":"NajbrojnijaTvrtka.js","./PetNajjaciPiva":"PetNajjaciPiva.js","./PivePoBoji":"PivePoBoji.js","./NajstarijaTvrtka":"NajstarijaTvrtka.js","./ProsjecnaJakostTvrtka":"ProsjecnaJakostTvrtka.js","./TvrtkaNajjacaPiva":"TvrtkaNajjacaPiva.js","./JednaPiJednaTv":"JednaPiJednaTv.js","./Najskuplje":"Najskuplje.js","./NajbrojnijeTvrtke":"NajbrojnijeTvrtke.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -33619,7 +34097,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58372" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50575" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

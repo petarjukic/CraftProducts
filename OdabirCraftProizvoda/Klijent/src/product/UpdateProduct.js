@@ -25,11 +25,6 @@ const UpdateProduct = (props) => {
         fetch("http://localhost:5000/api/products/" + props.productName)
         .then((response) => response.json())
         .then((prod) => {
-            // fetch("http://localhost:5000/api/checkRole", options)
-            // .then((response) => response.json())
-            // .then(() => console.log("Provjera"))
-            // .catch(() => navigate("/"))
-
             setId(prod[0]._id)
             setPrice(prod[0].price)
             setAlcoholPercentage(prod[0].alcoholPercentage)

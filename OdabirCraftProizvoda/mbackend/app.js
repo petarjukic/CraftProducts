@@ -95,13 +95,6 @@ userRouter.route('/check/:email').get((req, res) => {
 });
 
 userRouter.route('/logout').get((req, res) => {
-    // res.cookie('jwt', '', {maxAge: 1});
-    // req.user.deleteToken(req.token, (err, user) => {
-    //     if(err) return res.status(400).send(err);
-    //         res.sendStatus(200);
-    // })
-    // res.clearCookie('nToken');
-    // res.sendStatus(200);
 });
 
 app.use("/api", userRouter);
@@ -143,6 +136,17 @@ craftProducts.route('/company-products/:companyName').get((req, res) => {
     });
 });
 
+craftProducts.route('/boja/:color').get((req, res) => {
+    Product.find({color: req.params.color}, (err, prod) => {
+        if(err) {
+            res.send(err);
+        }
+        else {
+            return res.json(prod);
+        }
+    });
+});
+
 craftProducts.route('/products').get((req, res) => {
     Product.find((err, products) => {
         if(err) {
@@ -164,6 +168,7 @@ craftProducts.get('/products/:productName', (req, res) => {
         }
     });
 });
+
 
 //////////// READ COMPANY & PRODUCT /////////////////
 
@@ -261,7 +266,6 @@ craftProducts.route('/product/update/:productName').put(verifyJwt1, (req, res) =
 
 
 app.use("/api", craftProducts);
-
 
 
 app.listen(port, ()=>{

@@ -7,8 +7,10 @@ const SearchParams = () => {
     const [companies, setCompanies] = useState([]);
     const {user, setUser} = useContext(UserContext);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [boja, setBoja] = useState("");
+    const [nesto, setNesto] = useState("");
 
-
+    
     useEffect(() => {
         const options = {headers:{
             Authorization: "Bearer " + localStorage.getItem("token")
@@ -36,6 +38,14 @@ const SearchParams = () => {
         });
     },[]);
 
+    function handleBoja(e) {
+        e.preventDefault();
+    }
+
+    function onChangeBoja(e) {
+        setBoja(e.target.value);
+    }
+
     return(
         <div className="search-params">
             {user ? 
@@ -52,8 +62,41 @@ const SearchParams = () => {
                 <div>        
                 </div>
             }
-            <button onClick={() => navigate('/products')}>Products</button>
-            
+            <button onClick={() => navigate('/products')}>Products</button><br/>
+
+            <button onClick={() => navigate('/najjacePivo')}>Najjace Pivo</button>
+            <button onClick={() => navigate('/najbrojnija')}>Najbrojnija</button>
+            <button onClick={() => navigate('/pet')}>pet najjaci</button>
+            <button onClick={() => navigate('/najstarija')}>Najstarija</button>
+            <button onClick={() => navigate('/prosjek')}>Prosjecna jakost</button>
+            <button onClick={() => navigate('/odSvake')}>Tvrtka Najjaca</button>
+            <button onClick={() => navigate('/poJedna')}>Jedna piva 1 Tvrtka</button>
+            <button onClick={() => navigate('/najskuplje')}>5 Najskuplje</button>
+            <button onClick={() => navigate('/najbrojnije')}>5 Najbrojnije</button>
+
+            <form onSubmit={(e) => {handleBoja(e);}}>
+            <label htmlFor="boja">Boja</label>
+            <input
+                type="text"
+                value={boja}
+                onChange={onChangeBoja}
+                onBlur={onChangeBoja}
+            ></input>
+            <button onClick={() => navigate('/boja/' + boja)}>Bojaa</button>
+            </form>
+
+            <select 
+                onChange={(e) => {
+                    setNesto(e.target.value)
+                }}
+                >
+                    <option value="">NESTO</option>
+                    {companies.map((comp) => 
+                        <option key={comp.name} value={comp.name}>{comp.name}</option>     
+                    )}
+                </select>
+
+  
             <table>
                 <thead>
                     <tr>
